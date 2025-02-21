@@ -5,5 +5,9 @@
     "keyboard": {
         "backspace": "Backspace",
         "enter": "Enter"
+    },
+    "profile": {
+        noPicks: "oops, user has no pics((",
+        logsHeaderName: "Statistic"
     }
 }

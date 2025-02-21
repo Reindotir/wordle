@@ -7,7 +7,10 @@ export default class NotFoundPage {
     }
 
     init() {
-        this.main.textContent = "такой старницы нет"
+        this.main.textContent = "Чел, ты ошибся страницей."
+        setTimeout(() => {
+            this.router.navigate("/")
+        }, 3000)
     }
 
     exit() {

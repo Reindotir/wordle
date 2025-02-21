@@ -92,14 +92,28 @@ export default class MainPage {
         if (userData) this.wordleApi.userData = JSON.parse(userData)
         
         this.wordleApi.init()
+        
+        const winTxts = [
+            "Ухухуэ я бы не угадал, молодец!!", 
+            "хорошо, теперь еще одна игра.",
+            "Как ты это делаешь?",
+            "КРУТА ТОП НУ ТЫ ВАШЕ КАК ПРОСТО",
+        ]
+        
+        const lossTxts = [
+            "Ну и ладно, зато ты красивый",
+            "Представь как было бы скусно без проигрышей",
+            "Может посмотришь в консоль? ТОЛЬКО ТССС",
+            "Ладно, хорошо, круто, весело, прикольно."
+        ]
 
         this.wordleApi.on("win", () => {
-
-            setTimeout(() => this.wordleApi.newGame(), 2000)
+            let idx = Math.floor(Math.random() * winTxts.length)
+            this.opnePanel(winTxts[idx])
         })
         this.wordleApi.on("loss", () => {
-            console.log("Блиин ты проиграл")
-            setTimeout(() => this.wordleApi.newGame(), 2000)
+            let idx = Math.floor(Math.random() * lossTxts.length)
+            this.opnePanel(lossTxts[idx])
         })
     }
 
@@ -109,8 +123,9 @@ export default class MainPage {
         document.body.appendChild(this.logPanel)
     }
 
-    openPanel() {
+    openPanel(content = "") {
         this.logPanel.classList.add("show")
+        this.logPanel.innerHTML = content
     }
 
     closePanel() {
