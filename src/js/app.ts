@@ -3,20 +3,56 @@ import { Router, store } from "../libs/PageX"
 
 import { Header } from "../comps/header"
 
-import { LeadersPage } from "..pages/LeadersPage"
-import { MainPage } from "..pages/MainPage"
-import { ProfilePage } from "..pages/ProfilePage"
-import { NotFoundPage } from "..pages/NotFoundPage"
-
 export class App {
     async init() {
         this.initState()
         this.initRoutes()
         this.initDesign()
+        this.initOverlay()
         await this.initLocales()
         this.initComps()
         
         store.state.router.navigate(location.pathname)
+    }
+
+    initOverlay() {
+        const ui = store.state.ui
+        ui.add("#overlay", {
+            zIndex: "3",
+            position: "absolute",
+            height: '100vh',
+            width: '100vw',
+            backdropFilter: "blur(10px)",
+            display: "none",
+            opacity: "0",
+            transition: "opacity 0.3s",
+
+            "&.show": {
+                opacity: "1",
+            }
+        })
+
+        const div = document.createElement("div")
+        div.classList.add("overlay")
+        store.setState({
+            overlay: div
+        })
+        document.body.appendChild(div)
+    }
+
+    openOverlay() {
+        document.body.appendChild(store.state.overlay)
+        setTimeout(() => {
+            store.state.overlay.classList.add(".show")
+        }, 10)
+    }
+
+    closeOverlay() {
+        const overlay = document.querySelector("#overlay")
+        if (overlay) {
+            overlay.classList.remove("show")
+            setTimeout(() => overlay.remove, 300)
+        }
     }
     
     initState() {
@@ -32,10 +68,10 @@ export class App {
     initRoutes() {
         const router = store.state.router
         
-        router.add("/", MainPage)
-        router.add("/profile", ProfilePage)
-        router.add("/leaders", LeadersPage)
-        router.add("*", NotFoundPage)
+        router.add("/", () => import("../pages/MainPage"))
+        router.add("/profile", () => import("../pages/ProfilePage"))
+        router.add("/leaders", () => import("../pages/LeadersPage"))
+        router.add("/*", () => import("../pages/NotFoundPage"))
     }
 
     initDesign() {
@@ -83,6 +119,7 @@ export class App {
             error: "255, 59, 48",
             success: "52, 199, 89",
             warning: "255, 149, 0",
+            grey: "128, 128, 128",
             info: "0, 122, 255",
 
             white: "255, 255, 255",
@@ -145,18 +182,20 @@ export class App {
     }
     
     async initLocales() {
-        const lang = (await fetch("langs/en.json")).json()
+        let response = await fetch("langs/en.json")
+        let lang = await response.json()
         
-        let langName = navigator.language || navigator.userLanguage
+        let langName = navigator.language
         
         let userChoice = localStorage.getItem("lang")
         if (userChoice) langName = userChoice
-        
+
         if (langName === "ru-RU") {
-            const newLang = (await fetch("langs/en.json")).json()
+            const res = await fetch("langs/en.json")
+            let newLang = await res.json()
             this.deepAssign(lang, newLang)
         }
-        
+
         store.setState({
             lang: lang,
             langName: langName,
@@ -176,18 +215,34 @@ export class App {
     
     initComps() {
         store.setState({
-            header: new Header()
+            header: new Header({
+                btns: [
+                    {
+                        content: store.st.lang.leadersPageBtn,
+                        href: "/leaders",
+                    },
+                    {
+                        content: store.st.lang.mainPageBtn,
+                        href: "/",
+                    },
+                    {
+                        content: store.st.lang.profilePageBtn,
+                        href: "/profile"
+                    }
+                ],
+                startIdx: 1,
+            })
         })
     }
     
     // просто для глубокого оьновления объектоа
-    deepAssign(target, source) {
+    deepAssign(target: Record<string, any>, source: Record<string, any>) {
         for (let key in source) {
             if (source[key] instanceof Object && !Array.isArray(source[key])) {
                 if (!target[key]) {
                     target[key] = {}
                 }
-                deepAssign(target[key], source[key])
+                this.deepAssign(target[key], source[key])
             } else {
                 target[key] = source[key]
             }

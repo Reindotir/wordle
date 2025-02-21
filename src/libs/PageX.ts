@@ -76,7 +76,7 @@ class EventEmmiter {
         
         const event = new this.Event(name, details)
 
-        const toDelete = []
+        const toDelete: Array<any> = []
         
         for (const listener of listeners) {
             listener.callback(event, ...args)
@@ -242,7 +242,7 @@ export class Router extends EventEmmiter {
 
     initHandler() {
         this.on("popstate", () => {
-            this.navigate()
+            this.navigate(location.pathname)
         })
     }
 
@@ -265,7 +265,7 @@ export class Router extends EventEmmiter {
         return window.location.pathname + window.location.search + window.location.hash
     }
 
-    async navigate(path: string = this.path, data: Record<string, any> = {}): Promise<AppEvent> {
+    async navigate(path: string, data: Record<string, any> = {}): Promise<AppEvent> {
         const event = this.emit("navigate", {
             path: path,
             oldPath: this.path,
@@ -392,7 +392,7 @@ export class Router extends EventEmmiter {
     }
     
     find(path: string): Record<string, any> | null  {
-        const branches = []
+        const branches: Array<any> = []
         for (const key in this.straightTree) {
             if (this.toRegex(key).test(path)) {
                 branches.push(this.straightTree[key])
@@ -496,14 +496,14 @@ export class Router extends EventEmmiter {
         }
     }
     
-    async initPage(page: new (...args: any[]) => any, getPage = false) {
-        if (getPage) page = await this.getPage(page)
+    async initPage(page: (new (...args: any[]) => any) | null | Function, getPage = false) {
+        if (getPage && page) page = await this.getPage(page)
         if (!page) return null
         
-        let ins = null
+        let ins: Record<string, any> | null = null
         try {
             ins = new page(this)
-            if (typeof ins.init === "function") {
+            if (ins && typeof ins.init === "function") {
                 let res = ins.init()
                 if (res instanceof Promise) res = await res
             }
@@ -530,19 +530,20 @@ export class Router extends EventEmmiter {
         // задает определенное время для промиса
     }
     
-    async getPage(page: Function) {
+    async getPage(page: (() => Promise<{ default: Function }>) | Function): Promise<Function | null> {
         if (this.isFn(page)) {
-            let res = null
             try {
-                res = page()
+                let res = page()
                 if (res instanceof Promise) res = (await res).default
-                if (typeof res !== "function") res = null
+                if (typeof res !== "function") {
+                    throw new Error("Module doesnt has default property")
+                } else {
+                    return res
+                }
             } catch(e) {
                 console.error("Can't get module through lazy loading: " + e)
                 console.error("Page: ", page)
             }
-            
-            return res
         }
         return page
     }

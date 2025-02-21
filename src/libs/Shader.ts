@@ -701,7 +701,6 @@ export class Shader {
         Packs.forEach((pack) => {
             const packs = this.packs
             packs[pack.name] = pack.pack
-            console.log(packs)
             localStorage.setItem(this.op.packKey, JSON.stringify(packs))
         })
     }

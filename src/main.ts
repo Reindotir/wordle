@@ -1,3 +1,3 @@
-import { App } from 'js/app'
+import { App } from './js/app'
 const app = new App()
 app.init()

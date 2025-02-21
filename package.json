@@ -1,0 +1,25 @@
+{
+  "name": "wordle",
+  "version": "1.0.0",
+  "description": "Супер крутая игра со словами.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Reindotir/wordle.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Reindotir/wordle/issues"
+  },
+  "homepage": "https://github.com/Reindotir/wordle#readme",
+  "dependencies": {
+    "express": "^4.21.2"
+  },
+  "devDependencies": {
+    "vite": "^6.1.1"
+  }
+}

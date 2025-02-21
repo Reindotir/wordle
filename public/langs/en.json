@@ -1,0 +1,9 @@
+{
+    "leadersPageBtn": "Leaders",
+    "mainPageBtn": "Game",
+    "profilePageBtn": "Profile",
+    "keyboard": {
+        "backspace": "Backspace",
+        "enter": "Enter"
+    }
+}
