@@ -68,12 +68,19 @@ export class Wordle extends EventEmmiter {
             display: 'flex',
             flexDirection: "column",
             alignItems: "center",
-            gap: '20px',
+            justifyContent: "center",
+            gap: "10px",
+            height: "100%",
+            width: "100%",
+            outline: "1px solid red",
         })
-        this.ui.add("canvasCont", {
+        this.ui.add(".canvasCont", {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
+            width: "100%",
+            height: "60%",
+            border: "1px solid white",
         })
 
         this.canvasCont = document.createElement('div')
@@ -97,25 +104,24 @@ export class Wordle extends EventEmmiter {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            gap: "15px",
-            width: "100%",
-            height: "auto",
-            borderRadius: '12px',
-            marginRight: "10px",
+            gap: '2vh',
+            width: "10%",
+            height: "100%",
         })
         this.ui.add(".inputBox", {
-            width: "auto",
+            flex: "1 0",
+            width: "100%",
             display: "flex",
-            height: "50px",
-            gap: "10px",
+            gap: '2vw',
             alignItems: "center",
+            justifyContent: 'center',
         })
 
         this.ui.add(".sym", {
-            width: "50px",
-            height: "50px",
+            flex: '1 0 45px',
+            aspectRatio: '1 / 1',
             display: "flex",
-            fontSize: "110%",
+            fontSize: "120%",
             alignItems: "center",
             justifyContent: "center",
             borderRadius: "8px",
@@ -141,7 +147,7 @@ export class Wordle extends EventEmmiter {
             "&.yellow": {
                 backgroundColor: "rgba(var(--warning), 0.5)"
             },
-        }) 
+        })
 
         const canvasBox = document.createElement("div")
         canvasBox.classList.add("canvasBox")
@@ -175,30 +181,31 @@ export class Wordle extends EventEmmiter {
 
     initKeyboard() {
         this.ui.add(".lettersBox", {
-            width: "50%",
             display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
             flexDirection: "column",
-            gap: "8px",
+            alignItems: "center",
+            gap: '2vh',
+            width: "100%",
+            maxWidth: "550px",
+            height: "40%",
         })
         this.ui.add(".lettersLine", {
+            width: "auto",
             display: "flex",
-            width: "80%",
-            height: "auto",
-            gap: "10px",
-            justifyContent: "center",
-            flexWrap: "wrap",
+            gap: '1vw',
+            alignItems: "center",
+            justifyContent: 'center',
         })
+        
         this.ui.add(".letter", {
             all: "unset",
+            aspectRatio: "1 / 1",
+            flex: '1 0 35px',
             cursor: "pointer",
-            width: "45px",
-            height: "45px",
             display: "flex",
             alignItems: "center",
-            fontSize: "125%",
             justifyContent: "center",
+            fontSize: "120%",
             borderRadius: "8px",
             backgroundColor: "rgb(var(--component))",
             transition: "transform 0.3s cubic-bezier(0.25, 1, 0.5, 1)",
@@ -219,20 +226,19 @@ export class Wordle extends EventEmmiter {
                 backgroundColor: "rgba(var(--warning), 0.5)"
             },
         })
-
+        console.log(this.ui)
         this.ui.add(".opLine", {
-            width: "80%",
-            height: "auto",
+            padding: "0 20px",
+            width: "100%",
             display: "flex",
             alignItems: "center",
-            padding: "0 10px",
-            justifyContent: "space-between"
+            justifyContent: 'space-between',
         })
         this.ui.add(".optionBtn", {
             all: "unset",
+            flex: "0.1 0",
             cursor: "pointer",
-            width: "100px",
-            height: "35px",
+            aspectAsio: "3 / 1",
             display: "flex",
             alignItems: "center",
             fontSize: "125%",
@@ -240,7 +246,6 @@ export class Wordle extends EventEmmiter {
             borderRadius: "8px",
             backgroundColor: "rgb(var(--component))",
             padding: "5px",
-
             transition: "transform 0.3s cubic-bezier(0.25, 1, 0.5, 1)",
 
             "&:active": {
@@ -276,8 +281,8 @@ export class Wordle extends EventEmmiter {
             const inps = this.activeLine.querySelectorAll(".sym")
 
             const paintKeyboard = (letter, type: string) => {
-                const btn = lettersLine.querySelector(`[data-letter="${letter}"]`)
-                if (btn) btn.classList.add(type)
+                const btn = lettersBox.querySelector(`[data-letter="${letter}"]`)
+                if (btn) btn.className = "letter " + type
             }
 
             let emptyInp = false
@@ -341,15 +346,19 @@ export class Wordle extends EventEmmiter {
 
         lettersBox.appendChild(opLine)
 
-        const lettersLine = document.createElement("div")
-        lettersLine.classList.add("lettersLine")
-        this.op.letters.forEach((letter: string) => {
-            const btn = newBtn(letter)
+        const newLine = (line: Array<string>) => {
+            const lettersLine = document.createElement("div")
+            lettersLine.classList.add("lettersLine")
+            line.forEach((letter: string) => {
+                const btn = newBtn(letter)
+                lettersLine.appendChild(btn)
+            })
+            lettersBox.appendChild(lettersLine)
+        }
 
-            lettersLine.appendChild(btn)
+        this.op.letters.forEach((line: Array<string>) => {
+            newLine(line)
         })
-
-        lettersBox.appendChild(lettersLine)
 
         this.box.appendChild(lettersBox)
     }

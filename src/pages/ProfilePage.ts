@@ -18,9 +18,9 @@ export default class ProfilePage {
         this.ui.add(".profile", {
             
         })
-        this.box = document.createElemnet("div")
+        this.box = document.createElement("div")
         this.box.classList.add("profile")
-        main.appendChild(this.box)
+        this.main.appendChild(this.box)
         
         this.initProfile()
         this.initState()
@@ -31,7 +31,7 @@ export default class ProfilePage {
         this.ui.add(".user-profile", {
             
         })
-        const box = document.createElemnet("div")
+        const box = document.createElement("div")
         box.classList.add("user-profile")
         
         
@@ -42,10 +42,10 @@ export default class ProfilePage {
                 
             }
         }) 
-        const avatatBox = document.createElemnet("div")
+        const avatarBox = document.createElement("div")
         avatarBox.classList.add("avatarBox")
-        const avatar = document.createElemnet("img")
-        img.src = store.st.user.avatar || "../cats/avatar.jpg"
+        const avatar = document.createElement("img")
+        avatar.src = store.st.user.avatar || "../cats/avatar.jpg"
         avatarBox.appendChild(avatar)
         box.appendChild(avatarBox)
         
@@ -53,13 +53,13 @@ export default class ProfilePage {
         this.ui.add(".rightCont", {
             
         })
-        const rightBox = document.createElemnet("div")
+        const rightBox = document.createElement("div")
         rightBox.classList.add("rightCont")
         
         this.ui.add(".app-option", {
             
             
-            ".btn" {
+            ".btn": {
                 
                 
                 "svg": {
@@ -67,19 +67,19 @@ export default class ProfilePage {
                 }
             }
         })
-        const btnsCont = document.createElemnet("div")
+        const btnsCont = document.createElement("div")
         btnsCont.classList.add("app-option")
         
-        const langs = document.createElemnet("button")
-        langs.addEventListener("click", {
+        const langs = document.createElement("button")
+        langs.addEventListener("click", () => {
             
         })
         langs.classList.add("btn")
         langs.appendChild(store.st.app.createIcon("#langs"))
         btnsCont.appendChild(langs)
         
-        const theme = document.createElemnet("button")
-        theme.addEventListener("click", {
+        const theme = document.createElement("button")
+        theme.addEventListener("click", () => {
 
         })
         theme.classList.add("btn")
@@ -92,7 +92,7 @@ export default class ProfilePage {
         this.ui.add(".nickname", {
             
         }) 
-        const nickname = document.createElemnet("div")
+        const nickname = document.createElement("div")
         nickname.classList.add("nickname")
         nickname.textContent = store.st.user.name
         rightBox.appendChild(nickname)
@@ -107,9 +107,9 @@ export default class ProfilePage {
                 
             }
         })
-        const description = document.createElemnet("div")
+        const description = document.createElement("div")
         description.classList.add("description")
-        const span = document.createElemnet("span")
+        const span = document.createElement("span")
         span.textContent = store.st.user.desc
         description.appendChild(span)
         box.appendChild(description)
@@ -121,13 +121,13 @@ export default class ProfilePage {
         this.ui.add('.user-state', {
             
         })
-        const box = document.createElemnet("div")
+        const box = document.createElement("div")
         box.classList.add("user-state")
         
         this.ui.add(".info-header", {
             
         })
-        const header = document.createElemnet("div")
+        const header = document.createElement("div")
         header.classList.add("info-header")
         header.textContent = store.state.lang.profile.logsHeaderName
         box.appendChild(header)
@@ -148,21 +148,21 @@ export default class ProfilePage {
                 }
             }
         })
-        const logs = document.createElemnet("div")
+        const logs = document.createElement("div")
         logs.classList.add("user-games-log")
         
         const newLog = (state: Record<string, any>) => {
             const { attempts, word } = state
             
-            const cont = document.createElemnet("div")
-            classList.add("log")
+            const cont = document.createElement("div")
+            cont.classList.add("log")
             
-            const wordSpan = document.createElemnet("span")
+            const wordSpan = document.createElement("span")
             wordSpan.classList.add("word")
-            wordSpan.textContent = wordSpan
+            wordSpan.textContent = word
             cont.appendChild(wordSpan)
             
-            const attemptsSpan = document.createElemnet("span")
+            const attemptsSpan = document.createElement("span")
             attemptsSpan.classList.add("attempts")
             attemptsSpan.textContent = attempts
             cont.appendChild(attemptsSpan)
@@ -173,26 +173,27 @@ export default class ProfilePage {
         
         let data = localStorage.getItem("userGameData")
         if (data) {
-            data = JSON.parse(data)
-            data.games.forEach((state) => newLog(state))
+            let parsedData = JSON.parse(data) as { games?: any[] }
+            parsedData.games?.forEach((state) => newLog(state))
         }
+
         
         box.appendChild(logs)
-        this.box.attemptsSpan(box)
+        this.box.appendChild(box)
     }
     
     initGallery() {
         this.ui.add(".gallery-box", {
             
         })
-        const box = document.createElemnet("div")
+        const box = document.createElement("div")
         box.classList.add("gallery-box")
         
         
         this.ui.add(".gallery", {
             
         })
-        const gallery = document.createElemnet("div")
+        const gallery = document.createElement("div")
         gallery.classList.add("gallery")
         
         // делаем вид что получили фотки пользователя
@@ -206,10 +207,10 @@ export default class ProfilePage {
             }
         })
         picks.forEach((path) => {
-            const picBox = document.createElemnet("div")
+            const picBox = document.createElement("div")
             picBox.classList.add("pic-box")
             
-            const pic = document.createElemnet('img')
+            const pic = document.createElement('img')
             pic.classList.add("pic")
             pic.src = path
             picBox.appendChild(pic)
@@ -221,7 +222,7 @@ export default class ProfilePage {
             
         })
         if (!picks.length) {
-            const errorSpan = document.createElemnet("span")
+            const errorSpan = document.createElement("span")
             errorSpan.classList.add("error-pics")
             errorSpan.textContent = store.state.lang.profile.noPics
         }

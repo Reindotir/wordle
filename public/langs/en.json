@@ -7,7 +7,7 @@
         "enter": "Enter"
     },
     "profile": {
-        noPicks: "oops, user has no pics((",
-        logsHeaderName: "Statistic"
+        "noPicks": "oops, user has no pics((",
+        "logsHeaderName": "Statistic"
     }
 }

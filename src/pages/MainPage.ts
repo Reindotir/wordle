@@ -24,8 +24,8 @@ export default class MainPage {
         const offEnv = this.ui.env("main")
 
         this.ui.add(".wordleBox", {
-            width: 'auto',
-            height: "auto",
+            width: '100%',
+            height: "100%",
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
@@ -62,8 +62,16 @@ export default class MainPage {
         this.wordle.setAttribute("id", "wordle")
         this.box.appendChild(this.wordle)
 
-        const englishAlphabet = "qwertyuiopasdfghjklzxcvbnm".split("")
-        const russianAlphabet = "йцукенгшщзфывапролдячсмить".split("")
+        const englishAlphabet = [
+            "qwertyuiop".split(""),
+            "asdfghjkl".split(""),
+            "zxcvbnm".split(""),
+        ]
+        const russianAlphabet = [
+            "йцукенгшщзхъ".split(""),
+            "фывапролджэ".split(""),
+            "ячсмитьбю".split(""),
+        ]
 
         const alphabet = {
             "ru-RU": russianAlphabet,
@@ -109,11 +117,11 @@ export default class MainPage {
 
         this.wordleApi.on("win", () => {
             let idx = Math.floor(Math.random() * winTxts.length)
-            this.opnePanel(winTxts[idx])
+            this.openPanel(winTxts[idx])
         })
         this.wordleApi.on("loss", () => {
             let idx = Math.floor(Math.random() * lossTxts.length)
-            this.opnePanel(lossTxts[idx])
+            this.openPanel(lossTxts[idx])
         })
     }
 
