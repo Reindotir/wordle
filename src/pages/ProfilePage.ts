@@ -8,6 +8,7 @@ export default class ProfilePage {
 
     constructor(router: Record<string, any>) {
         this.router = router
+        store.st.header.focus(2)
     }
 
     init() {
@@ -15,11 +16,31 @@ export default class ProfilePage {
     }
     
     initContent() {
-        this.ui.add(".profile", {
-            
+        this.ui.add(".profile-box", {
+            display: 'grid',
+            width: "100%",
+            height: "100%",
+            alignItems: 'center',
+            gridTemplateAreas: 
+            `"profile logs"
+             "gallery logs"`,
+            gap: "1vw",
+            gridTemplateRows: "1fr 1fr",
+            gridTemplateColumns: "1fr 1fr",
+        })
+        this.ui.add("@media screen and (max-width: 800px)", {
+            "main .profile-box": {
+                gridTemplateAreas:
+                `"profile"
+                 "gallery"
+                 "logs"`,
+                gap: "1vh",
+                gridTemplateRows: "1fr",
+                gridTemplateColumns: "1fr",
+            }
         })
         this.box = document.createElement("div")
-        this.box.classList.add("profile")
+        this.box.classList.add("profile-box")
         this.main.appendChild(this.box)
         
         this.initProfile()
@@ -29,17 +50,39 @@ export default class ProfilePage {
     
     initProfile() {
         this.ui.add(".user-profile", {
-            
+            gridArea: "profile",
+            display: "grid",
+            gridTemplateAreas: `
+            "avatar nick"
+            "avatar option"
+            "description"
+            `,
+            gridTemplateColumns: "1fr 1fr",
+            gridTemplateRows: "auto auto auto",
+            alignItems: "center",
+            justifyContent: "center",
+            width: "100%",
+            height: "100%",
+            borderRadius: "12px",
+            border: "1px solid white"
         })
         const box = document.createElement("div")
         box.classList.add("user-profile")
         
         
         this.ui.add(".avatarBox", {
-            
+            gridArea: "avatar",
+            width: "50%",
+            aspectRatio: "1/1",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            backgroundColor: "rgb(var(--bg-nd))",
             
             "img": {
-                
+                borderRadius: "8px",
+                width: "100%",
+                height: "100%",
             }
         }) 
         const avatarBox = document.createElement("div")
@@ -50,14 +93,12 @@ export default class ProfilePage {
         box.appendChild(avatarBox)
         
         
-        this.ui.add(".rightCont", {
-            
-        })
-        const rightBox = document.createElement("div")
-        rightBox.classList.add("rightCont")
-        
         this.ui.add(".app-option", {
-            
+            gridArea: "option",
+            width: "50%",
+            display: "flex",
+            alignItems: "canter",
+            justifyContent: "center",
             
             ".btn": {
                 
@@ -86,22 +127,28 @@ export default class ProfilePage {
         theme.appendChild(store.st.app.createIcon("#theme"))
         btnsCont.appendChild(theme)
         
-        rightBox.appendChild(btnsCont)
+        avatarBox.appendChild(btnsCont)
         
         
         this.ui.add(".nickname", {
-            
+            gridArea: "nick",
+            width: "50%",
+            display: "flex",
+            alignItems: "canter",
+            justifyContent: "center",
         }) 
         const nickname = document.createElement("div")
         nickname.classList.add("nickname")
         nickname.textContent = store.st.user.name
-        rightBox.appendChild(nickname)
-        
-        box.appendChild(rightBox)
-        
+        avatarBox.appendChild(nickname)
         
         this.ui.add("description", {
-            
+            gridArea: "description",
+            width: "100%",
+            height: "100%",
+            display: "flex",
+            alignItems: "canter",
+            justifyContent: "center",
             
             "span": {
                 
@@ -119,7 +166,12 @@ export default class ProfilePage {
     
     initState() {
         this.ui.add('.user-state', {
-            
+            gridArea: "logs",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            borderRadius: "12px",
+            border: "1px solid white"
         })
         const box = document.createElement("div")
         box.classList.add("user-state")
@@ -133,7 +185,7 @@ export default class ProfilePage {
         box.appendChild(header)
         
         
-        this.ui.add("user-games-log", {
+        this.ui.add(".user-games-log", {
             
             
             ".log": {
@@ -184,7 +236,12 @@ export default class ProfilePage {
     
     initGallery() {
         this.ui.add(".gallery-box", {
-            
+            gridArea: "gallery",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            borderRadius: "12px",
+            border: "1px solid white"
         })
         const box = document.createElement("div")
         box.classList.add("gallery-box")

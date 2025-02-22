@@ -87,8 +87,11 @@ export class Header {
         if (btnToFocus) this.focus(btnToFocus)
     }
 
-    focus(btn: HTMLElement) {
+    focus(btn: HTMLElement | number) {
         const btns = this.box.querySelectorAll(".btn")
+        if (typeof btn === "number") {
+            btn = btns[btn]
+        }
 
         btns.forEach((btn) => {
             btn.classList.remove("active")

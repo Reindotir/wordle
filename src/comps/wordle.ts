@@ -72,15 +72,13 @@ export class Wordle extends EventEmmiter {
             gap: "10px",
             height: "100%",
             width: "100%",
-            outline: "1px solid red",
         })
         this.ui.add(".canvasCont", {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
             width: "100%",
-            height: "60%",
-            border: "1px solid white",
+            height: "65%",
         })
 
         this.canvasCont = document.createElement('div')
@@ -187,7 +185,7 @@ export class Wordle extends EventEmmiter {
             gap: '2vh',
             width: "100%",
             maxWidth: "550px",
-            height: "40%",
+            height: "35%",
         })
         this.ui.add(".lettersLine", {
             width: "auto",
@@ -260,7 +258,7 @@ export class Wordle extends EventEmmiter {
             btn.textContent = letter
             btn.addEventListener("click", () => {
                 if (this.state.gameEnd) return
-                if (this.activeInp) this.activeInp.textContent = letter
+                if (this.activeInp && !this.activeInp.textContent) this.activeInp.textContent = letter
                 const nextInp = this.nextInp()
                 if (nextInp) this.activeInp = nextInp
             })

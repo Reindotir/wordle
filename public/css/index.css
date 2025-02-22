@@ -19,8 +19,6 @@ body {
     height: 100vh;
     overflow: auto;
 
-    outline: 1px solid red;
-
     color: rgb(var(--color));
     font-size: 16px;
     font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, 
@@ -64,7 +62,7 @@ main {
     display: flex;
     align-items: center;
     justify-content: center;
-    
+    overflow-y: auto;
 }
 
 

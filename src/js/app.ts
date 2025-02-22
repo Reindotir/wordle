@@ -62,6 +62,10 @@ export class App {
             shader: shader,
             Theme: Theme,
             Pack: Pack,
+            user: {
+                avatar: "",
+                name: "cat lover ;>"
+            }
         })
     }
     
