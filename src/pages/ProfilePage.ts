@@ -4,6 +4,7 @@ export default class ProfilePage {
     main: HTMLElement = document.querySelector("main") as HTMLElement
     router: Record<string, any>
     ui: Record<string, any> = store.st.ui
+    box!: HTMLElement
 
     constructor(router: Record<string, any>) {
         this.router = router
@@ -14,6 +15,13 @@ export default class ProfilePage {
     }
     
     initContent() {
+        this.ui.add(".profile", {
+            
+        })
+        this.box = document.createElemnet("div")
+        this.box.classList.add("profile")
+        main.appendChild(this.box)
+        
         this.initProfile()
         this.initState()
         this.initGallery()
@@ -35,11 +43,18 @@ export default class ProfilePage {
             }
         }) 
         const avatatBox = document.createElemnet("div")
-        box.classList.add("avatarBox")
+        avatarBox.classList.add("avatarBox")
         const avatar = document.createElemnet("img")
         img.src = store.st.user.avatar || "../cats/avatar.jpg"
         avatarBox.appendChild(avatar)
         box.appendChild(avatarBox)
+        
+        
+        this.ui.add(".rightCont", {
+            
+        })
+        const rightBox = document.createElemnet("div")
+        rightBox.classList.add("rightCont")
         
         this.ui.add(".app-option", {
             
@@ -71,7 +86,7 @@ export default class ProfilePage {
         theme.appendChild(store.st.app.createIcon("#theme"))
         btnsCont.appendChild(theme)
         
-        box.appendChild(btnsCont)
+        rightBox.appendChild(btnsCont)
         
         
         this.ui.add(".nickname", {
@@ -80,7 +95,9 @@ export default class ProfilePage {
         const nickname = document.createElemnet("div")
         nickname.classList.add("nickname")
         nickname.textContent = store.st.user.name
-        box.appendChild(nickname)
+        rightBox.appendChild(nickname)
+        
+        box.appendChild(rightBox)
         
         
         this.ui.add("description", {

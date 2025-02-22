@@ -37,14 +37,13 @@ export class Header {
             justifyContent: "center",
             borderRadius: "8px",
             cursor: "pointer",
-            fontSize: "16px",
             color: 'rgb(var(--color-nd))',
             zIndex: "1",
             transition: "color 0.3s, font-size 0.3s, font-weight 0.3s",
 
             "&.active": {
                 color: "rgb(var(--color))",
-                fontSize: "18px",
+                fontSize: "110%",
                 fontWeight: "bold",
             }
         })
