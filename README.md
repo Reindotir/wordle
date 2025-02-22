@@ -19,11 +19,11 @@
 * Запускаем локальный сервер и открываем index.html внутри этой папки
 
 **Иначе:**
-git clone https://github.com/Reindotir/wordle.git
-cd wordle
-npm init
-npm install --save-dev vite
-npm run dev
+* git clone https://github.com/Reindotir/wordle.git
+* cd wordle
+* npm init
+* npm install --save-dev vite
+* npm run dev
 
 Открываем локалхост на 5000 порту, либо после заруска просто прописать "o" и нажать Enter (сам открывает браузер)
 
