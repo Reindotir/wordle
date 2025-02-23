@@ -111,9 +111,70 @@ export default class ProfilePage {
         const btnsCont = document.createElement("div")
         btnsCont.classList.add("app-option")
         
-        const langs = document.createElement("button")
-        langs.addEventListener("click", () => {
+        this.ui.add(".option-menu", {
+            position: "absolute",
+            display: "flex",
+            borderRadius: "8px",
+            width: "150px",
+            height: "auto",
+            padding: "5px",
+            gap: "5px",
+            alignItems: "center",
+            justifyContent: "center",
+            flexDirection: "column",
+            opacity: "0",
+            transform: "translateY(-20px)",
+            transition: "opacity 0.3s cubic-bezier(0.25, 1, 0.5, 1), transform 0.3s cubic-bezier(0.25, 1, 0.5, 1)"
             
+            "&.show": {
+                opacity: "1",
+                transform: "translateY(0px)",
+            }
+        })
+        
+        this.ui.add(".option-menu-btn", {
+            all: "unset",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            borderRadius: "5px",
+            backgroundColor: "rgb(var(--component))",
+            width: "100%",
+        })
+        
+        const newMenu = (e) => {
+            const btn = e.target as HTMLElement
+            if (document.querySelector(".option-menu")) return
+
+            const menu = document.createElement("div")
+            menu.classList.add('option-menu')
+            document.body.appendChild(menu)
+            
+            const rect = btn.getBoundingClientRect()
+            menu.style.left = `${rect.left}px`
+            menu.style.top = `${rect.bottom + window.scrollY}px`
+            menu.classList.add("show")
+            
+            document.addEventListener("click", () => {
+                menu.classList.remove("show")
+                setTimeout(() => menu.remove(), 300)
+            }, { once: true })
+            
+            return menu
+        }
+        
+        const langs = document.createElement("button")
+        langs.addEventListener("click", (e) => {
+            const menu = newMenu()
+            for (const lang in store.st.langs) {
+                const btn = document.createElement("button")
+                btn.textContent = lang
+                btn.classList.add("option-menu-btn")
+                btn.addEventListener("click", () => {
+                    store.st.app.changeLang(store.st.langs[lang])
+                })
+                menu.appendChild(btn)
+            }
         })
         langs.classList.add("btn")
         langs.appendChild(store.st.app.createIcon("#langs"))
@@ -121,7 +182,31 @@ export default class ProfilePage {
         
         const theme = document.createElement("button")
         theme.addEventListener("click", () => {
-
+            const menu = newMenu()
+            
+            const dark = document.createElement("button")
+            dark.classList.add("option-menu-btn")
+            dark.textContent = store.st.lang.themes.dark
+            dark.addEventListener("click", {
+                localStorage.setItem("prefer-class", "dark-mode")
+            })
+            menu.appendChild(dark)
+            
+            const light = document.createElement("button")
+            light.classList.add("option-menu-btn")
+            light.textContent = store.st.lang.themes.light
+            light.addEventListener("click", {
+                localStorage.setItem("prefer-class", "light-mode")
+            })
+            menu.appendChild(light)
+            
+            const auto = document.createElement("button")
+            auto.classList.add("option-menu-btn")
+            auto.textContent = store.st.lang.themes.auto
+            auto.addEventListener("click", {
+                localStorage.removeItem("prefer-class")
+            })
+            menu.appendChild(auto)
         })
         theme.classList.add("btn")
         theme.appendChild(store.st.app.createIcon("#theme"))

@@ -111,6 +111,11 @@ export class App {
         } else {
             document.documentElement.classList.add('light-mode')
         }
+        
+        const prefer = localStorage.getItem("prefer-class")
+        if (prefer) {
+            document.documentElement.classList.add(prefer)
+        }
     }
     
     initColors() {
@@ -203,6 +208,10 @@ export class App {
         store.setState({
             lang: lang,
             langName: langName,
+            langs: {
+                russian: "ru",
+                english: "en",
+            },
         })
     }
     
