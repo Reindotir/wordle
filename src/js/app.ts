@@ -64,7 +64,8 @@ export class App {
             Pack: Pack,
             user: {
                 avatar: "",
-                name: "cat lover ;>"
+                name: "cat lover ;>",
+                desc: "это описание моего профиля, но оно находится внутри крутого приложения поэтому это крутое описание."
             }
         })
     }
@@ -113,8 +114,9 @@ export class App {
         }
         
         const prefer = localStorage.getItem("prefer-class")
+
         if (prefer) {
-            document.documentElement.classList.add(prefer)
+            document.documentElement.className = prefer
         }
     }
     

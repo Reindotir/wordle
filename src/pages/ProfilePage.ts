@@ -52,13 +52,13 @@ export default class ProfilePage {
         this.ui.add(".user-profile", {
             gridArea: "profile",
             display: "flex",
-            gap: "15px",
+            gap: "5px",
             width: "100%",
             height: "100%",
             alignItems: "center",
             justifyContent: "center",
             borderRadius: "12px",
-            border: "1px solid green"
+            backgroundColor: "rgb(var(--bg-nd))"
         })
         const box = document.createElement("div")
         box.classList.add("user-profile")
@@ -66,17 +66,16 @@ export default class ProfilePage {
         
         this.ui.add(".avatarBox", {
             gridArea: "avatar",
-            width: "50%",
+            width: "40%",
             aspectRatio: "1/1",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            backgroundColor: "rgb(var(--bg-nd))",
             
             "img": {
                 borderRadius: "8px",
-                width: "100%",
-                height: "100%",
+                width: "80%",
+                height: "80%",
             }
         }) 
         const avatarBox = document.createElement("div")
@@ -89,28 +88,51 @@ export default class ProfilePage {
 
         this.ui.add(".data-box", {
             width: "50%",
-            alignItems: "center",
             display: "flex",
+            paddingTop: "7%",
             flexDirection: "column",
             height: "100%",
-            gap: "1vh",
+            gap: "2vh",
         })
         const dataBox = document.createElement("div")
         box.appendChild(dataBox)
         dataBox.classList.add("data-box")
 
+
+        this.ui.add(".nickname", {
+            gridArea: "nick",
+            fontSize: "200%",
+            fontWeight: "bold",
+        }) 
+        const nickname = document.createElement("div")
+        nickname.classList.add("nickname")
+        nickname.textContent = store.st.user.name
+        dataBox.appendChild(nickname)
+
+
+
         this.ui.add(".app-option", {
             gridArea: "option",
-            width: "50%",
+            width: "100%",
             display: "flex",
             alignItems: "canter",
-            justifyContent: "center",
+            gap: "10px",
             
             ".btn": {
-                
+                all: "unset",
+                cursor: "pointer",
+                borderRadius: "8px",
+                backgroundColor: "rgb(var(--component))",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                padding: "5px",
+                width: "auto",
+                gap: "5px",
                 
                 "svg": {
-                    
+                    height: "100%",
+                    aspectRatio: "1 / 1",
                 }
             }
         })
@@ -121,10 +143,12 @@ export default class ProfilePage {
             position: "absolute",
             display: "flex",
             borderRadius: "8px",
-            width: "150px",
+            width: "200px",
             height: "auto",
             padding: "5px",
             gap: "5px",
+            backgroundColor: "rgb(var(--bg-nd))",
+            boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
             alignItems: "center",
             justifyContent: "center",
             flexDirection: "column",
@@ -144,6 +168,8 @@ export default class ProfilePage {
             alignItems: "center",
             justifyContent: "center",
             borderRadius: "5px",
+            padding: "3px",
+            cursor: "pointer",
             backgroundColor: "rgb(var(--component))",
             width: "100%",
         })
@@ -158,13 +184,15 @@ export default class ProfilePage {
             
             const rect = btn.getBoundingClientRect()
             menu.style.left = `${rect.left}px`
-            menu.style.top = `${rect.bottom + window.scrollY}px`
+            menu.style.top = `${rect.bottom + window.scrollY + 10}px`
             menu.classList.add("show")
             
-            document.addEventListener("click", () => {
-                menu.classList.remove("show")
-                setTimeout(() => menu.remove(), 300)
-            }, { once: true })
+            setTimeout(() => {
+                document.addEventListener("click", () => {
+                    menu.classList.remove("show")
+                    setTimeout(() => menu.remove(), 300)
+                }, { once: true })
+            }, 10)
             
             return menu
         }
@@ -185,6 +213,7 @@ export default class ProfilePage {
         })
         langs.classList.add("btn")
         langs.appendChild(store.st.app.createIcon("#langs"))
+        langs.innerHTML += "<span>" + store.st.lang.option.langs + "</span>"
         btnsCont.appendChild(langs)
         
         const theme = document.createElement("button")
@@ -217,34 +246,21 @@ export default class ProfilePage {
         })
         theme.classList.add("btn")
         theme.appendChild(store.st.app.createIcon("#theme"))
+        theme.innerHTML += "<span>" + store.st.lang.option.theme + "</span>"
         btnsCont.appendChild(theme)
         
         dataBox.appendChild(btnsCont)
         
         
-        this.ui.add(".nickname", {
-            gridArea: "nick",
-            width: "50%",
-            display: "flex",
-            alignItems: "canter",
-            justifyContent: "center",
-        }) 
-        const nickname = document.createElement("div")
-        nickname.classList.add("nickname")
-        nickname.textContent = store.st.user.name
-        dataBox.appendChild(nickname)
-        
         this.ui.add("description", {
             gridArea: "description",
-            width: "100%",
-            height: "100%",
-            display: "flex",
-            alignItems: "canter",
-            justifyContent: "center",
-            
-            "span": {
-                
-            }
+            maxWidth: "100%",
+            maxHeight: "100px",
+            border: "1px solid white",
+            display: "-webkit-box",
+            WebkitLineClamp: 2,
+            WebkitBoxOrient: "vertical",
+            overflow: "hidden",
         })
         const description = document.createElement("div")
         description.classList.add("description")

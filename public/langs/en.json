@@ -9,5 +9,14 @@
     "profile": {
         "noPicks": "oops, user has no pics((",
         "logsHeaderName": "Statistic"
+    },
+    "option": {
+        "langs": "Change lang",
+        "theme": "Change theme"
+    },
+    "themes": {
+        "dark": "dark",
+        "light": "light",
+        "auto": "auto"
     }
 }
