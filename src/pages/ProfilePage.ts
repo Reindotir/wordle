@@ -23,19 +23,21 @@ export default class ProfilePage {
             alignItems: 'center',
             gridTemplateAreas: 
             `"profile logs"
-             "gallery logs"`,
+             "gallery average"`,
             gap: "1vw",
             gridTemplateRows: "45vh 45vh",
             gridTemplateColumns: "45vw 45vw",
+            justifyContent: "center",
         })
         this.ui.add("@media screen and (max-width: 800px)", {
             "main .profile-box": {
                 gridTemplateAreas:
                 `"profile"
                  "gallery"
-                 "logs"`,
-                gap: "1vh",
-                gridTemplateRows: "1fr",
+                 "logs"
+                 "average"`,
+                gap: "2vh",
+                gridTemplateRows: "auto",
                 gridTemplateColumns: "85vw",
             }
         })
@@ -46,6 +48,7 @@ export default class ProfilePage {
         this.initProfile()
         this.initState()
         this.initGallery()
+        this.initAverage()
     }
     
     initProfile() {
@@ -54,11 +57,12 @@ export default class ProfilePage {
             display: "flex",
             gap: "5px",
             width: "100%",
-            height: "100%",
+            height: "auto",
+            padding: "5px",
             alignItems: "center",
             justifyContent: "center",
             borderRadius: "12px",
-            backgroundColor: "rgb(var(--bg-nd))"
+            backgroundColor: "rgb(var(--bg-nd))",
         })
         const box = document.createElement("div")
         box.classList.add("user-profile")
@@ -117,6 +121,7 @@ export default class ProfilePage {
             display: "flex",
             alignItems: "canter",
             gap: "10px",
+            flexWrap: "wrap",
             
             ".btn": {
                 all: "unset",
@@ -225,6 +230,7 @@ export default class ProfilePage {
             dark.textContent = store.st.lang.themes.dark
             dark.addEventListener("click", () => {
                 localStorage.setItem("prefer-class", "dark-mode")
+                location.reload()
             })
             menu.appendChild(dark)
             
@@ -233,6 +239,7 @@ export default class ProfilePage {
             light.textContent = store.st.lang.themes.light
             light.addEventListener("click", () => {
                 localStorage.setItem("prefer-class", "light-mode")
+                location.reload()
             })
             menu.appendChild(light)
             
@@ -241,6 +248,7 @@ export default class ProfilePage {
             auto.textContent = store.st.lang.themes.auto
             auto.addEventListener("click", () => {
                 localStorage.removeItem("prefer-class")
+                location.reload()
             })
             menu.appendChild(auto)
         })
@@ -279,35 +287,64 @@ export default class ProfilePage {
             flexDirection: "column",
             alignItems: "center",
             borderRadius: "12px",
-            border: "1px solid green",
-            height: "100%",
+            backgroundColor: "rgb(var(--bg-nd))",
+            height: "45vh",
+            maxHeight: "100%",
             width: "100%",
+            padding: "5px",
         })
         const box = document.createElement("div")
         box.classList.add("user-state")
         
         this.ui.add(".info-header", {
-            
+            width: "100%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: "5px",
+            fontSize: "125%",
+            fontWeight: "bold",
         })
         const header = document.createElement("div")
         header.classList.add("info-header")
-        header.textContent = store.state.lang.profile.logsHeaderName
+        header.innerHTML = `<span>${store.state.lang.profile.logsHeaderName}</span>`
         box.appendChild(header)
         
         
         this.ui.add(".user-games-log", {
-            
+            backgroundColor: "rgb(var(--bg-st))",
+            width: "100%",
+            height: "100%",
+            maxHeight: "60vh",
+            overflowY: "auto",
+            overflowX: "hidden",
+            display: "flex",
+            alignItems: "center",
+            flexDirection: "column",
+            borderRadius: "8px",
+            gap: "3vh",
+            padding: "5px",
             
             ".log": {
-                
+                width: "100%",
+                height: "2vh",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                padding: "0px 5px",
                 
                 ".word": {
-                    
+                    fontSize: "110%",
                 },
                 
                 ".attempts": {
-                    
-                }
+                    fontSize: "110%",
+                },
+            },
+            
+            "> span": {
+                fontWeight: "bold",
+                fontSize: "130%",
             }
         })
         const logs = document.createElement("div")
@@ -334,11 +371,17 @@ export default class ProfilePage {
         }
         
         let data = localStorage.getItem("userGameData")
+        let parsedData
         if (data) {
-            let parsedData = JSON.parse(data) as { games?: any[] }
+            parsedData = JSON.parse(data) as { games?: any[] }
             parsedData.games?.forEach((state) => newLog(state))
         }
-
+        
+        if (parsedData && !parsedData.games.length) {
+            const errorSpan = document.createElement("span")
+            errorSpan.textContent = store.st.lang.profile.logsError
+            logs.appendChild(errorSpan)
+        }
         
         box.appendChild(logs)
         this.box.appendChild(box)
@@ -351,24 +394,40 @@ export default class ProfilePage {
             flexDirection: "column",
             alignItems: "center",
             borderRadius: "12px",
-            border: "1px solid white",
+            backgroundColor: "rgb(var(--bg-nd))",
             width: "100%",
             height: "100%",
+            padding: "5px",
         })
         const box = document.createElement("div")
         box.classList.add("gallery-box")
         
         
+        this.ui.add(".gallery-header", {
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: "5px",
+            fontSize: "120%",
+            fontWeight: "bold",
+        })
+        const header = document.createElement("div")
+        header.classList.add("gallery-header")
+        header.innerHTML = `<span>${store.st.lang.profile.galleryHeader}</span>`
+        box.appendChild(header)
+        
         this.ui.add(".gallery", {
             maxWidth: "100%",
-            height: "auto",
-            padding: "10px",
+            height: "100%",
+            padding: "15px",
             overflowX: "auto",
-            border: '1px solid red',
+            overflowY: "hidden",
+            borderRadius: "10px",
             display: "flex",
             flexDirection: "row",
+            backgroundColor: "rgb(var(--bg-st))",
             alignItems: "center",
-            gap: "1vw"
+            gap: "2vw",
         })
         const gallery = document.createElement("div")
         gallery.classList.add("gallery")
@@ -386,9 +445,12 @@ export default class ProfilePage {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
+            padding: "5px",
             
             ".pic": {
                 aspectRatio: '1/1',
+                width: "25vw",
+                maxHeight: "90%",
                 borderRadius: "8px",
             }
         })
@@ -405,16 +467,82 @@ export default class ProfilePage {
         })
         
         this.ui.add(".error-pics", {
-            
+            fontSize: "125%"
         })
         if (!picks.length) {
             const errorSpan = document.createElement("span")
             errorSpan.classList.add("error-pics")
-            errorSpan.textContent = store.state.lang.profile.noPics
+            errorSpan.textContent = store.state.lang.profile.noPicks
+            gallery.appendChild(errorSpan)
         }
         
         box.appendChild(gallery)
         this.box.appendChild(box)
+    }
+    
+    initAverage() {
+        this.ui.add(".average-box", {
+            gridArea: "average",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            flexDirection: "column",
+            width: "100%",
+            height: "100%",
+            padding: "5px",
+            borderRadius: "12px",
+            backgroundColor: "rgb(var(--bg-nd))"
+        })
+        const averageBox = document.createElement("div")
+        averageBox.classList.add("average-box")
+        
+        this.ui.add(".average-header", {
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: "5px",
+            fontSize: "120%",
+            fontWeight: "bold",
+            width: "100%",
+            height: "auto",
+        })
+        const averageHeader = document.createElement('div')
+        averageHeader.classList.add("average-header")
+        averageHeader.textContent = store.st.lang.average.header
+        
+        this.ui.add(".average-content", {
+            width: "100%",
+            height: "100%",
+            display: "flex",
+            borderRadius: "8px",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: "5px",
+            fontWeight: "bold",
+            fontSize: "150%",
+            backgroundColor: "rgb(var(--bg-st))",
+            
+            "span": {
+                fontSize: "200%",
+                fontWeight: "bolder",
+            }
+        })
+        
+        let value = 0
+        
+        let data = localStorage.getItem('userGameData')
+        if (data) {
+            data = JSON.parse(data)
+            value = data.games.reduce((sum, obj) => sum + obj.attempts, 0) / data.games.length
+        }
+        
+        const averageContent = document.createElement('div')
+        averageContent.textContent = value
+        averageContent.classList.add("average-content")
+        
+        averageBox.appendChild(averageHeader)
+        averageBox.appendChild(averageContent)
+        this.box.appendChild(averageBox)
     }
 
     exit() {

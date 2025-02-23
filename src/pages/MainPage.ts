@@ -12,6 +12,10 @@ export default class MainPage {
 
     constructor(router: Record<string, any>) {
         this.router = router
+        
+        window.addEventListener("beforeunload", () => {
+            this.saveData()
+        })
     }
 
     init() {
@@ -34,19 +38,52 @@ export default class MainPage {
 
         this.ui.add(".log-panel", {
             position: "absolute",
+            zIndex: "5",
             width: "40%",
             height: "30%",
             display: "flex",
             flexDirection: "column",
+            borderRadius: "12px",
             alignItems: "center",
+            boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
+            backgroundColor: "rgb(var(--bg-nd))",
             justifyContent: "center",
             opacity: "0",
-            transform: "translateY(-20px)",
+            transform: "translate(-50%, -60%)",
             transition: "opacity 0.5s cubic-bezier(0.25, 1, 0.5, 1), transform 0.5s cubic-bezier(0.25, 1, 0.5, 1)",
 
             "&.show": {
                 opacity: "1",
-                transform: "translateY(0px)",
+                transform: "translate(-50%, -50%)",
+            },
+        })
+        
+        this.ui.add(".log-panel-content", {
+            display: "flex",
+            width: "100%",
+            height: "100%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            flexDirection: "column",
+            gap: "5px",
+        })
+        
+        this.ui.add(".log-panel-option", {
+            width: "100%",
+            padding: "5px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            
+            "button": {
+                all: "unset",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                padding: "5px",
+                borderRadius: "8px",
+                backgroundColor: "rgb(var(--component))",
             }
         })
 
@@ -98,7 +135,7 @@ export default class MainPage {
 
         const userData = localStorage.getItem('userGameData')
         if (userData) this.wordleApi.userData = JSON.parse(userData)
-        
+        console.log(userData)
         this.wordleApi.init()
         
         const winTxts = [
@@ -128,22 +165,40 @@ export default class MainPage {
     initLogPanel() {
         this.logPanel = document.createElement("div")
         this.logPanel.classList.add("log-panel")
+        const content = document.createElement("div")
+        content.classList.add("log-panel-content")
+        this.logPanel.appendChild(content)
+        
+        const option = document.createElement("div")
+        option.classList.add("log-panel-option")
+        const btn = document.createElement("button")
+        btn.addEventListener("click", () => {
+            this.wordleApi.newGame()
+        })
+        btn.textContent = store.st.lang.logPanel.btn
+        option.appendChild(btn)
+        this.logPanel.appendChild(option)
+        
         document.body.appendChild(this.logPanel)
     }
 
     openPanel(content = "") {
         this.logPanel.classList.add("show")
-        this.logPanel.innerHTML = content
+        this.logPanel.querySelector("div").innerHTML = content
     }
 
     closePanel() {
         this.logPanel.classList.remove("show")
     }
+    
+    saveData() {
+        localStorage.setItem("userGameData", JSON.stringify(this.wordleApi.userData))
+        console.log(this.wordleApi.userData)
+    }
 
     exit() {
         this.logPanel.remove()
         this.main.innerHTML = ""
-
-        localStorage.setItem("userGameData", JSON.stringify(this.wordleApi.userData))
+        this.saveData()
     }
 }

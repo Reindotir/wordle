@@ -8,7 +8,19 @@
     },
     "profile": {
         "noPicks": "oops, user has no pics((",
-        "logsHeaderName": "Statistic"
+        "logsHeaderName": "Statistic",
+        "logsError": "You have no games. why.",
+        "galleryHeader": "Gallery"
+    },
+    "topList": {
+        "header": "Top"
+    },
+    "status": {
+        "header": "Your status",
+        "type": ["beginning", "advanced", "pro"]
+    },
+    "average": {
+        "header": "Average value"
     },
     "option": {
         "langs": "Change lang",
@@ -18,5 +30,12 @@
         "dark": "dark",
         "light": "light",
         "auto": "auto"
+    },
+    "leaders": {
+        "place": "Place in top",
+        "placeHeader": "Place"
+    },
+    "logPanel": {
+        "btn": "Ok"
     }
 }

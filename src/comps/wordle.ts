@@ -88,12 +88,12 @@ export class Wordle extends EventEmmiter {
         this.on("win", () => {
             this.state.gameEnd = true
             this.state.win = true
-            console.log(this.userData)
+            this.userData.games.push(this.state)
         })
 
         this.on("loss", () => {
             this.state.gameEnd = true
-            console.log(this.userData)
+            this.userData.games.push(this.state)
         })
     }
 
@@ -198,7 +198,7 @@ export class Wordle extends EventEmmiter {
         this.ui.add(".letter", {
             all: "unset",
             aspectRatio: "1 / 1",
-            flex: '1 0 35px',
+            flex: '1 0 30px',
             cursor: "pointer",
             display: "flex",
             alignItems: "center",
@@ -224,7 +224,7 @@ export class Wordle extends EventEmmiter {
                 backgroundColor: "rgba(var(--warning), 0.5)"
             },
         })
-        console.log(this.ui)
+        
         this.ui.add(".opLine", {
             padding: "0 20px",
             width: "100%",
@@ -310,7 +310,6 @@ export class Wordle extends EventEmmiter {
                 this.emit("win")
                 return
             } else if (this.activeLine.getAttribute("data-id") === "5") {
-                console.log("так")
                 this.emit("loss")
                 return
             }
@@ -373,10 +372,6 @@ export class Wordle extends EventEmmiter {
     }
 
     newGame() {
-        if (this.state) {
-            delete this.state.gameEnd
-            this.userData.games.push(this.state)
-        }
         this.clearKeyboard()
 
         this.state = {

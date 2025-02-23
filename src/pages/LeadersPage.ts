@@ -21,8 +21,8 @@ export default class LeadersPage {
             `"top place"
              "top status"`,
             gap: "1vw",
-            gridTemplateRows: "1fr 1fr",
-            gridTemplateColumns: "1fr 1fr",
+            gridTemplateRows: "45vh 45vh",
+            gridTemplateColumns: "45vw 45vw",
         })
         this.ui.add("@media screen and (max-width: 800px)", {
             "main .leadersBox": {
@@ -31,8 +31,8 @@ export default class LeadersPage {
                  "place"
                  "status"`,
                 gap: "1vh",
-                gridTemplateRows: "1fr",
-                gridTemplateColumns: "1fr",
+                gridTemplateRows: "auto",
+                gridTemplateColumns: "85vw",
             }
         })
         this.box = document.createElement("div")
@@ -52,34 +52,59 @@ export default class LeadersPage {
             width: "100%",
             height: "100%",
             borderRadius: "12px",
-            border: "1px solid white",
+            flexDirection: "column",
+            padding: "5px",
+            backgroundColor: "rgb(var(--bg-nd))",
         })
         const topBox = document.createElement("div")
         topBox.classList.add("top-box")
         
         
         this.ui.add(".top-header", {
-            
+            width: "100%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: "5px",
+            fontSize: "120%",
+            fontWeight: "bold",
         }) 
         const topHeader = document.createElement("div")
         topHeader.classList.add("top-header")
+        topHeader.textContent = store.st.lang.topList.header
         topBox.appendChild(topHeader)
         
         this.ui.add('.top-list', {
-            
+            backgroundColor: "rgb(var(--bg-st))",
+            width: "100%",
+            maxHeight: "85vh",
+            height: "100%",
+            overflowY: "auto",
+            overflowX: "hidden",
+            display: "flex",
+            alignItems: "center",
+            flexDirection: "column",
+            borderRadius: "8px",
+            gap: "3vh",
+            padding: "5px",
         })
         const list = document.createElement("div")
         topBox.appendChild(list)
         list.classList.add("top-list")
         
         this.ui.add(".user-box", {
-            
+            width: "100%",
+            height: "3vh",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            padding: "0px 5px",
         })
         this.ui.add(".user-name", {
-            
+            fontSize: "120%",
         }) 
         this.ui.add('.user-data', {
-            
+            fontSize: "120%",
         })
         const newUser = (data) => {
             const userBox = document.createElement("div")
@@ -98,8 +123,34 @@ export default class LeadersPage {
             list.appendChild(userBox)
         }
         
-        // якобы полаем данные из сервера
+        // якобы получаем данные из сервера
+        const users = [
+            {
+                name: "user1",
+                value: "1.24"
+            },
+            {
+
+                name: "user2",
+                value: "1.50"
+            },
+            {
+                name: "user3",
+                value: "2.33"
+            },
+            {
+                name: "user4",
+                value: "2.54"
+            },
+            {
+                name: "user5",
+                value: "3"
+            },
+        ]
         
+        users.forEach((user) => {
+            newUser(user)
+        })
         
         this.box.appendChild(topBox)
     }
@@ -110,28 +161,50 @@ export default class LeadersPage {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
+            flexDirection: "column",
             width: "100%",
             height: "100%",
+            padding: "5px",
             borderRadius: "12px",
-            border: "1px solid white",
+            backgroundColor: "rgb(var(--bg-nd))"
         })
         const placeBox = document.createElement("div")
         placeBox.classList.add("place-box")
         
         this.ui.add(".place-header", {
-            
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: "5px",
+            fontSize: "120%",
+            fontWeight: "bold",
+            width: "100%",
+            height: "auto",
         })
         const placeHeader = document.createElement('div')
-        placeBox.appendChild(placeHeader)
         placeHeader.classList.add("place-header")
+        placeHeader.textContent = store.st.lang.leaders.placeHeader
         
         this.ui.add(".place-content", {
+            width: "100%",
+            height: "100%",
+            display: "flex",
+            borderRadius: "8px",
+            alignItems: "center",
+            justifyContent: "center",
+            backgroundColor: "rgb(var(--bg-st))",
             
+            "span": {
+                fontSize: "200%",
+                fontWeight: "bolder",
+            }
         })
         const placeContent = document.createElement('div')
-        placeBox.appendChild(placeContent)
+        placeContent.innerHTML = `<span>${store.st.lang.leaders.place}: 5758438</span>`
         placeContent.classList.add("place-content")
         
+        placeBox.appendChild(placeHeader)
+        placeBox.appendChild(placeContent)
         this.box.appendChild(placeBox)
     }
     
@@ -144,24 +217,55 @@ export default class LeadersPage {
             width: "100%",
             height: "100%",
             borderRadius: "12px",
-            border: "1px solid white",
+            flexDirection: "column",
+            backgroundColor: "rgb(var(--bg-nd))",
+            padding: "5px",
         })
         const statusBox = document.createElement("div")
         statusBox.classList.add("status-box")
         
         this.ui.add(".status-header", {
-            
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: "5px",
+            fontSize: "120%",
+            fontWeight: "bold",
+            width: "100%",
+            height: "auto",
         })
+        
+        // полчучаем из сервера данные
+        let type = 0
+        let path = "../cats/beginner.jpg"
         const statusHeader = document.createElement('div')
         statusBox.appendChild(statusHeader)
+        statusHeader.textContent = `${store.st.lang.status.header}: ${store.st.lang.status.type[type]}`
         statusHeader.classList.add("status-header")
         
         this.ui.add(".status-content", {
+            width: "100%",
+            height: "100%",
+            display: "flex",
+            borderRadius: "8px",
+            alignItems: "center",
+            padding: "5px",
+            justifyContent: "center",
+            backgroundColor: "rgb(var(--bg-st))",
             
+            "img": {
+                width: "50%",
+                borderRadius: "8px",
+                aspectRatio: "1 / 1",
+            }
         })
         const statusContent = document.createElement('div')
         statusBox.appendChild(statusContent)
         statusContent.classList.add("status-content")
+        
+        const img = document.createElement("img")
+        img.src = path
+        statusContent.appendChild(img)
         
         this.box.appendChild(statusBox)
     }
