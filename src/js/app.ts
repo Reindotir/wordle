@@ -194,13 +194,13 @@ export class App {
         let response = await fetch("langs/en.json")
         let lang = await response.json()
         
-        let langName = navigator.language
+        let langName = "ru-RU"
         
         let userChoice = localStorage.getItem("lang")
         if (userChoice) langName = userChoice
 
         if (langName === "ru-RU") {
-            const res = await fetch("langs/en.json")
+            const res = await fetch("langs/ru.json")
             let newLang = await res.json()
             this.deepAssign(lang, newLang)
         }

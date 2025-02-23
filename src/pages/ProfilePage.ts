@@ -25,8 +25,8 @@ export default class ProfilePage {
             `"profile logs"
              "gallery logs"`,
             gap: "1vw",
-            gridTemplateRows: "1fr 1fr",
-            gridTemplateColumns: "1fr 1fr",
+            gridTemplateRows: "45vh 45vh",
+            gridTemplateColumns: "45vw 45vw",
         })
         this.ui.add("@media screen and (max-width: 800px)", {
             "main .profile-box": {
@@ -36,7 +36,7 @@ export default class ProfilePage {
                  "logs"`,
                 gap: "1vh",
                 gridTemplateRows: "1fr",
-                gridTemplateColumns: "1fr",
+                gridTemplateColumns: "85vw",
             }
         })
         this.box = document.createElement("div")
@@ -51,20 +51,14 @@ export default class ProfilePage {
     initProfile() {
         this.ui.add(".user-profile", {
             gridArea: "profile",
-            display: "grid",
-            gridTemplateAreas: `
-            "avatar nick"
-            "avatar option"
-            "description"
-            `,
-            gridTemplateColumns: "1fr 1fr",
-            gridTemplateRows: "auto auto auto",
-            alignItems: "center",
-            justifyContent: "center",
+            display: "flex",
+            gap: "15px",
             width: "100%",
             height: "100%",
+            alignItems: "center",
+            justifyContent: "center",
             borderRadius: "12px",
-            border: "1px solid white"
+            border: "1px solid green"
         })
         const box = document.createElement("div")
         box.classList.add("user-profile")
@@ -88,11 +82,23 @@ export default class ProfilePage {
         const avatarBox = document.createElement("div")
         avatarBox.classList.add("avatarBox")
         const avatar = document.createElement("img")
-        avatar.src = store.st.user.avatar || "../cats/avatar.jpg"
+        avatar.src = store.st.user.avatar || "../cats/cat_with_laptop.jpg"
         avatarBox.appendChild(avatar)
         box.appendChild(avatarBox)
-        
-        
+
+
+        this.ui.add(".data-box", {
+            width: "50%",
+            alignItems: "center",
+            display: "flex",
+            flexDirection: "column",
+            height: "100%",
+            gap: "1vh",
+        })
+        const dataBox = document.createElement("div")
+        box.appendChild(dataBox)
+        dataBox.classList.add("data-box")
+
         this.ui.add(".app-option", {
             gridArea: "option",
             width: "50%",
@@ -124,7 +130,7 @@ export default class ProfilePage {
             flexDirection: "column",
             opacity: "0",
             transform: "translateY(-20px)",
-            transition: "opacity 0.3s cubic-bezier(0.25, 1, 0.5, 1), transform 0.3s cubic-bezier(0.25, 1, 0.5, 1)"
+            transition: "opacity 0.3s cubic-bezier(0.25, 1, 0.5, 1), transform 0.3s cubic-bezier(0.25, 1, 0.5, 1)",
             
             "&.show": {
                 opacity: "1",
@@ -142,7 +148,7 @@ export default class ProfilePage {
             width: "100%",
         })
         
-        const newMenu = (e) => {
+        const newMenu = (e): HTMLElement | void=> { 
             const btn = e.target as HTMLElement
             if (document.querySelector(".option-menu")) return
 
@@ -165,7 +171,8 @@ export default class ProfilePage {
         
         const langs = document.createElement("button")
         langs.addEventListener("click", (e) => {
-            const menu = newMenu()
+            const menu = newMenu(e)
+            if (!menu) return
             for (const lang in store.st.langs) {
                 const btn = document.createElement("button")
                 btn.textContent = lang
@@ -181,13 +188,13 @@ export default class ProfilePage {
         btnsCont.appendChild(langs)
         
         const theme = document.createElement("button")
-        theme.addEventListener("click", () => {
-            const menu = newMenu()
-            
+        theme.addEventListener("click", (e) => {
+            const menu = newMenu(e)
+            if (!menu) return
             const dark = document.createElement("button")
             dark.classList.add("option-menu-btn")
             dark.textContent = store.st.lang.themes.dark
-            dark.addEventListener("click", {
+            dark.addEventListener("click", () => {
                 localStorage.setItem("prefer-class", "dark-mode")
             })
             menu.appendChild(dark)
@@ -195,7 +202,7 @@ export default class ProfilePage {
             const light = document.createElement("button")
             light.classList.add("option-menu-btn")
             light.textContent = store.st.lang.themes.light
-            light.addEventListener("click", {
+            light.addEventListener("click", () => {
                 localStorage.setItem("prefer-class", "light-mode")
             })
             menu.appendChild(light)
@@ -203,7 +210,7 @@ export default class ProfilePage {
             const auto = document.createElement("button")
             auto.classList.add("option-menu-btn")
             auto.textContent = store.st.lang.themes.auto
-            auto.addEventListener("click", {
+            auto.addEventListener("click", () => {
                 localStorage.removeItem("prefer-class")
             })
             menu.appendChild(auto)
@@ -212,7 +219,7 @@ export default class ProfilePage {
         theme.appendChild(store.st.app.createIcon("#theme"))
         btnsCont.appendChild(theme)
         
-        avatarBox.appendChild(btnsCont)
+        dataBox.appendChild(btnsCont)
         
         
         this.ui.add(".nickname", {
@@ -225,7 +232,7 @@ export default class ProfilePage {
         const nickname = document.createElement("div")
         nickname.classList.add("nickname")
         nickname.textContent = store.st.user.name
-        avatarBox.appendChild(nickname)
+        dataBox.appendChild(nickname)
         
         this.ui.add("description", {
             gridArea: "description",
@@ -244,7 +251,7 @@ export default class ProfilePage {
         const span = document.createElement("span")
         span.textContent = store.st.user.desc
         description.appendChild(span)
-        box.appendChild(description)
+        dataBox.appendChild(description)
         
         this.box.appendChild(box)
     }
@@ -256,7 +263,9 @@ export default class ProfilePage {
             flexDirection: "column",
             alignItems: "center",
             borderRadius: "12px",
-            border: "1px solid white"
+            border: "1px solid green",
+            height: "100%",
+            width: "100%",
         })
         const box = document.createElement("div")
         box.classList.add("user-state")
@@ -326,26 +335,45 @@ export default class ProfilePage {
             flexDirection: "column",
             alignItems: "center",
             borderRadius: "12px",
-            border: "1px solid white"
+            border: "1px solid white",
+            width: "100%",
+            height: "100%",
         })
         const box = document.createElement("div")
         box.classList.add("gallery-box")
         
         
         this.ui.add(".gallery", {
-            
+            maxWidth: "100%",
+            height: "auto",
+            padding: "10px",
+            overflowX: "auto",
+            border: '1px solid red',
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            gap: "1vw"
         })
         const gallery = document.createElement("div")
         gallery.classList.add("gallery")
         
         // делаем вид что получили фотки пользователя
-        const picks = []
+        const picks = [
+            "../cats/action_cat.jpg",
+            "../cats/meow.jpg",
+            "../cats/omg_cat.jpg",
+            "../cats/scary.jpg",
+            "../cats/working.gif",
+        ]
         
         this.ui.add('.pic-box', {
-            
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
             
             ".pic": {
-                
+                aspectRatio: '1/1',
+                borderRadius: "8px",
             }
         })
         picks.forEach((path) => {

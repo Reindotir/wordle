@@ -88,7 +88,7 @@ export class Header {
     }
 
     focus(btn: HTMLElement | number) {
-        const btns = this.box.querySelectorAll(".btn")
+        const btns = Array.from(this.box.querySelectorAll(".btn")) as Array<HTMLElement>
         if (typeof btn === "number") {
             btn = btns[btn]
         }

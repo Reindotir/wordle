@@ -3,7 +3,7 @@
     "mainPageBtn": "Игра",
     "profilePageBtn": "Профиль",
     "keyboard": {
-        "backspace": "Backspace",
-        "enter": "Enter"
+        "backspace": "Стереть",
+        "enter": "Ввод"
     }
 }
