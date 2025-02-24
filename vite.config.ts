@@ -4,8 +4,7 @@ export default defineConfig({
   base: "/wordle/",
   root: ".",
   build: {
-    outDir: "../dist", 
-    emptyOutDir: true, 
+    outDir: "dist", 
   },
   server: {
     port: 5000,
