@@ -1,6 +1,7 @@
 ## 1. Описарие проекта
-**Wordle Web App** – модульное, кроссплатформенное, красивое веб-приложение для игры в Wordle с таблицей лидеров и профилем пользователя.
-
+**Wordle Web App** – модульное, кроссплатформенное, красивое веб-приложение для игры в Wordle с таблицей лидеров и профилем пользователя. 
+  
+![Баннер](https://www.shutterstock.com/image-vector/wordle-word-puzzle-game-vector-260nw-2116971383.jpg)
 ## 2. Установка и запуск
 **Простой запуск:**
 * Скачиваем папку dist
@@ -14,11 +15,11 @@
 * npm install --save-dev vite
 * npm run dev
 
-Открываем http://localhost:5000
+Открываем http://localhost:5000  
 Или после запуска просто прописать "o" и нажать Enter (сам открывает браузер)
 
 **ЕСЛИ ВООБЩЕ НИЧЕГО НЕ РАБОТАЕТ:**
-Я выложил сайт на бесплатный хостинг
+Я выложил сайт на бесплатный хостинг  
 Тестировать здесь: ссылка
 
 ## 3. Особенности проекта
@@ -49,7 +50,17 @@ dist/ - скомпилированный проект с обычным js.
 
 ## 6. Скриншоты
 
-Добавь КАРТИНКИ И ГИФ МБ
+### Игра на телефоне:
+![игра](https://github.com/Reindotir/wordle/blob/main/screenshots/screen1.jpg)
+
+### Профиль на телефоне:
+![профиль](https://github.com/Reindotir/wordle/blob/main/screenshots/screen2.jpg)
+
+### Профиль на пк:
+![Профиль](https://github.com/Reindotir/wordle/blob/main/screenshots/screen3.jpg)
+
+### Лидеры на пк
+![Лидеры](https://github.com/Reindotir/wordle/blob/main/screenshots/screen4.jpg)
 
 ## 7. Технологии
 
