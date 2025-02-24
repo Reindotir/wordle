@@ -195,7 +195,7 @@ export class App {
         let response = await fetch("langs/en.json")
         let lang = await response.json()
         
-        let langName = "ru-RU"
+        let langName = "en-US"
         
         let userChoice = localStorage.getItem("lang")
         if (userChoice) langName = userChoice
