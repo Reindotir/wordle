@@ -9,6 +9,7 @@ export default class ProfilePage {
     constructor(router: Record<string, any>) {
         this.router = router
         store.st.header.focus(2)
+        document.title = "Wordle " + store.st.lang.profilePageBtn
     }
 
     init() {
@@ -23,7 +24,7 @@ export default class ProfilePage {
             alignItems: 'center',
             gridTemplateAreas: 
             `"profile logs"
-             "gallery average"`,
+             "gallery logs"`,
             gap: "1vw",
             gridTemplateRows: "45vh 45vh",
             gridTemplateColumns: "45vw 45vw",
@@ -34,8 +35,7 @@ export default class ProfilePage {
                 gridTemplateAreas:
                 `"profile"
                  "gallery"
-                 "logs"
-                 "average"`,
+                 "logs"`,
                 gap: "2vh",
                 gridTemplateRows: "auto",
                 gridTemplateColumns: "85vw",
@@ -48,7 +48,6 @@ export default class ProfilePage {
         this.initProfile()
         this.initState()
         this.initGallery()
-        this.initAverage()
     }
     
     initProfile() {
@@ -62,7 +61,7 @@ export default class ProfilePage {
             alignItems: "center",
             justifyContent: "center",
             borderRadius: "12px",
-            backgroundColor: "rgb(var(--bg-nd))",
+            backgroundColor: "rgba(var(--bg-nd), 0.8)",
         })
         const box = document.createElement("div")
         box.classList.add("user-profile")
@@ -152,7 +151,7 @@ export default class ProfilePage {
             height: "auto",
             padding: "5px",
             gap: "5px",
-            backgroundColor: "rgb(var(--bg-nd))",
+            backgroundColor: "rgba(var(--bg-rd), 0.9)",
             boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
             alignItems: "center",
             justifyContent: "center",
@@ -175,30 +174,39 @@ export default class ProfilePage {
             borderRadius: "5px",
             padding: "3px",
             cursor: "pointer",
-            backgroundColor: "rgb(var(--component))",
-            width: "100%",
+            backgroundColor: "rgba(var(--component), 0.8)",
+            width: "90%",
         })
         
         const newMenu = (e): HTMLElement | void=> { 
             const btn = e.target as HTMLElement
             if (document.querySelector(".option-menu")) return
 
-            const menu = document.createElement("div")
+            const menu = document.createElement("div");
             menu.classList.add('option-menu')
             document.body.appendChild(menu)
-            
+
             const rect = btn.getBoundingClientRect()
-            menu.style.left = `${rect.left}px`
-            menu.style.top = `${rect.bottom + window.scrollY + 10}px`
+            const menuWidth = 200
+
+            let left = rect.left
+            let top = rect.bottom + window.scrollY + 10
+
+            if (left + menuWidth > window.innerWidth) {
+                left = window.innerWidth - menuWidth - 20
+            }
+
+            menu.style.left = `${left}px`
+            menu.style.top = `${top}px`
             menu.classList.add("show")
-            
+
             setTimeout(() => {
                 document.addEventListener("click", () => {
                     menu.classList.remove("show")
                     setTimeout(() => menu.remove(), 300)
                 }, { once: true })
             }, 10)
-            
+
             return menu
         }
         
@@ -230,7 +238,7 @@ export default class ProfilePage {
             dark.textContent = store.st.lang.themes.dark
             dark.addEventListener("click", () => {
                 localStorage.setItem("prefer-class", "dark-mode")
-                location.reload()
+                document.documentElement.className = "dark-mode"
             })
             menu.appendChild(dark)
             
@@ -239,7 +247,7 @@ export default class ProfilePage {
             light.textContent = store.st.lang.themes.light
             light.addEventListener("click", () => {
                 localStorage.setItem("prefer-class", "light-mode")
-                location.reload()
+                document.documentElement.className = "light-mode"
             })
             menu.appendChild(light)
             
@@ -248,7 +256,11 @@ export default class ProfilePage {
             auto.textContent = store.st.lang.themes.auto
             auto.addEventListener("click", () => {
                 localStorage.removeItem("prefer-class")
-                location.reload()
+                if (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) {
+                    document.documentElement.classList.add('dark-mode')
+                } else {
+                    document.documentElement.classList.add('light-mode')
+                }
             })
             menu.appendChild(auto)
         })
@@ -280,6 +292,100 @@ export default class ProfilePage {
         this.box.appendChild(box)
     }
     
+    initGallery() {
+        this.ui.add(".gallery-box", {
+            gridArea: "gallery",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            borderRadius: "12px",
+            backgroundColor: "rgba(var(--bg-nd), 0.8)",
+            width: "100%",
+            height: "100%",
+            padding: "5px",
+        })
+        const box = document.createElement("div")
+        box.classList.add("gallery-box")
+        
+        
+        this.ui.add(".gallery-header", {
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: "5px",
+            fontSize: "120%",
+            fontWeight: "bold",
+        })
+        const header = document.createElement("div")
+        header.classList.add("gallery-header")
+        header.innerHTML = `<span>${store.st.lang.profile.galleryHeader}</span>`
+        box.appendChild(header)
+        
+        this.ui.add(".gallery", {
+            maxWidth: "100%",
+            height: "100%",
+            padding: "15px",
+            overflowX: "auto",
+            overflowY: "hidden",
+            borderRadius: "10px",
+            display: "flex",
+            flexDirection: "row",
+            backgroundColor: "rgba(var(--bg-st), 0.7)",
+            alignItems: "center",
+            gap: "2vw",
+        })
+        const gallery = document.createElement("div")
+        gallery.classList.add("gallery")
+        
+        // делаем вид что получили фотки пользователя
+        const picks = [
+            "../cats/action_cat.jpg",
+            "../cats/meow.jpg",
+            "../cats/omg_cat.jpg",
+            "../cats/scary.jpg",
+            "../cats/working.gif",
+        ]
+        
+        this.ui.add('.pic-box', {
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: "5px",
+            
+            ".pic": {
+                aspectRatio: '1/1',
+                width: "25vw",
+                maxHeight: "250px",
+                maxWidth: "250px",
+                borderRadius: "8px",
+            }
+        })
+        picks.forEach((path) => {
+            const picBox = document.createElement("div")
+            picBox.classList.add("pic-box")
+            
+            const pic = document.createElement('img')
+            pic.classList.add("pic")
+            pic.src = path
+            picBox.appendChild(pic)
+            
+            gallery.appendChild(picBox)
+        })
+        
+        this.ui.add(".error-pics", {
+            fontSize: "125%"
+        })
+        if (!picks.length) {
+            const errorSpan = document.createElement("span")
+            errorSpan.classList.add("error-pics")
+            errorSpan.textContent = store.state.lang.profile.noPicks
+            gallery.appendChild(errorSpan)
+        }
+        
+        box.appendChild(gallery)
+        this.box.appendChild(box)
+    }
+
     initState() {
         this.ui.add('.user-state', {
             gridArea: "logs",
@@ -287,8 +393,8 @@ export default class ProfilePage {
             flexDirection: "column",
             alignItems: "center",
             borderRadius: "12px",
-            backgroundColor: "rgb(var(--bg-nd))",
-            height: "45vh",
+            backgroundColor: "rgba(var(--bg-nd), 0.8)",
+            height: "85vh",
             maxHeight: "100%",
             width: "100%",
             padding: "5px",
@@ -312,7 +418,7 @@ export default class ProfilePage {
         
         
         this.ui.add(".user-games-log", {
-            backgroundColor: "rgb(var(--bg-st))",
+            backgroundColor: "rgba(var(--bg-st), 0.7)",
             width: "100%",
             height: "100%",
             maxHeight: "60vh",
@@ -345,6 +451,7 @@ export default class ProfilePage {
             "> span": {
                 fontWeight: "bold",
                 fontSize: "130%",
+                marginTop: "15%",
             }
         })
         const logs = document.createElement("div")
@@ -377,112 +484,15 @@ export default class ProfilePage {
             parsedData.games?.forEach((state) => newLog(state))
         }
         
-        if (parsedData && !parsedData.games.length) {
+        if (parsedData && !parsedData.games.length || !parsedData) {
             const errorSpan = document.createElement("span")
             errorSpan.textContent = store.st.lang.profile.logsError
             logs.appendChild(errorSpan)
         }
         
         box.appendChild(logs)
-        this.box.appendChild(box)
-    }
-    
-    initGallery() {
-        this.ui.add(".gallery-box", {
-            gridArea: "gallery",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            borderRadius: "12px",
-            backgroundColor: "rgb(var(--bg-nd))",
-            width: "100%",
-            height: "100%",
-            padding: "5px",
-        })
-        const box = document.createElement("div")
-        box.classList.add("gallery-box")
-        
-        
-        this.ui.add(".gallery-header", {
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            padding: "5px",
-            fontSize: "120%",
-            fontWeight: "bold",
-        })
-        const header = document.createElement("div")
-        header.classList.add("gallery-header")
-        header.innerHTML = `<span>${store.st.lang.profile.galleryHeader}</span>`
-        box.appendChild(header)
-        
-        this.ui.add(".gallery", {
-            maxWidth: "100%",
-            height: "100%",
-            padding: "15px",
-            overflowX: "auto",
-            overflowY: "hidden",
-            borderRadius: "10px",
-            display: "flex",
-            flexDirection: "row",
-            backgroundColor: "rgb(var(--bg-st))",
-            alignItems: "center",
-            gap: "2vw",
-        })
-        const gallery = document.createElement("div")
-        gallery.classList.add("gallery")
-        
-        // делаем вид что получили фотки пользователя
-        const picks = [
-            "../cats/action_cat.jpg",
-            "../cats/meow.jpg",
-            "../cats/omg_cat.jpg",
-            "../cats/scary.jpg",
-            "../cats/working.gif",
-        ]
-        
-        this.ui.add('.pic-box', {
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            padding: "5px",
-            
-            ".pic": {
-                aspectRatio: '1/1',
-                width: "25vw",
-                maxHeight: "90%",
-                borderRadius: "8px",
-            }
-        })
-        picks.forEach((path) => {
-            const picBox = document.createElement("div")
-            picBox.classList.add("pic-box")
-            
-            const pic = document.createElement('img')
-            pic.classList.add("pic")
-            pic.src = path
-            picBox.appendChild(pic)
-            
-            gallery.appendChild(picBox)
-        })
-        
-        this.ui.add(".error-pics", {
-            fontSize: "125%"
-        })
-        if (!picks.length) {
-            const errorSpan = document.createElement("span")
-            errorSpan.classList.add("error-pics")
-            errorSpan.textContent = store.state.lang.profile.noPicks
-            gallery.appendChild(errorSpan)
-        }
-        
-        box.appendChild(gallery)
-        this.box.appendChild(box)
-    }
-    
-    initAverage() {
+
         this.ui.add(".average-box", {
-            gridArea: "average",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
@@ -491,7 +501,6 @@ export default class ProfilePage {
             height: "100%",
             padding: "5px",
             borderRadius: "12px",
-            backgroundColor: "rgb(var(--bg-nd))"
         })
         const averageBox = document.createElement("div")
         averageBox.classList.add("average-box")
@@ -520,7 +529,7 @@ export default class ProfilePage {
             padding: "5px",
             fontWeight: "bold",
             fontSize: "150%",
-            backgroundColor: "rgb(var(--bg-st))",
+            backgroundColor: "rgba(var(--bg-st), 0.7)",
             
             "span": {
                 fontSize: "200%",
@@ -530,19 +539,23 @@ export default class ProfilePage {
         
         let value = 0
         
-        let data = localStorage.getItem('userGameData')
-        if (data) {
-            data = JSON.parse(data)
-            value = data.games.reduce((sum, obj) => sum + obj.attempts, 0) / data.games.length
+        let userData: string | Record<string, any> | null = localStorage.getItem('userGameData')
+        if (userData) {
+            userData = JSON.parse(userData) 
+            if (userData && typeof userData === "object") value = userData.games.reduce((sum, obj) => sum + obj.attempts, 0) / userData.games.length
         }
         
+        if (typeof value !== "number" || !value) value = 0
+        
         const averageContent = document.createElement('div')
-        averageContent.textContent = value
+        averageContent.textContent = String(value)
         averageContent.classList.add("average-content")
         
         averageBox.appendChild(averageHeader)
         averageBox.appendChild(averageContent)
-        this.box.appendChild(averageBox)
+        box.appendChild(averageBox)
+
+        this.box.appendChild(box)
     }
 
     exit() {

@@ -10,7 +10,7 @@
         "noPicks": "oops, user has no pics((",
         "logsHeaderName": "Statistic",
         "logsError": "You have no games. why.",
-        "galleryHeader": "Gallery"
+        "galleryHeader": "User gallery"
     },
     "topList": {
         "header": "Top"
@@ -36,6 +36,19 @@
         "placeHeader": "Place"
     },
     "logPanel": {
-        "btn": "Ok"
+        "btn": "Ok",
+        "word_was": "Word was",
+        "loss": [
+            "oh well, but u r beautiful",
+            "imagine boring world without loss",
+            "may be you can took a look at console? but I don't say that",
+            "okey, well, so, um"
+        ],
+        "win": [
+            "you r smart enough!", 
+            "okey, now another game",
+            "how did u do that?",
+            "WOW OMG COOL SHOCK"
+        ]
     }
 }

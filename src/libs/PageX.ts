@@ -302,7 +302,6 @@ export class Router extends EventEmmiter {
         const toExit: Record<string, any> = {}
         const toInit: Record<string, any> = {}
 
-
         let i = 0
         while (i < keys1.length && i < keys2.length && keys1[i] === keys2[i]) {
             newBranch[keys1[i]] = branch[keys1[i]]
@@ -316,7 +315,6 @@ export class Router extends EventEmmiter {
         }
         
         this.emit("progressUpdate", { percent: 20, text: "Found page" })
-
         if (!Object.keys(toExit).length && !Object.keys(toInit).length) {
             this.emit("progressUpdate", { percent: 50, text: "Reloading..."})
             this.reLoad()
@@ -331,7 +329,7 @@ export class Router extends EventEmmiter {
             const node = toExit[key]
             await this.exitPage(node.page)
         }
-        
+
         this.emit("progressUpdate", { percent: 50, text: "Exit end"})
         let percentOfPage: number = 0
         let curePercent = 50
@@ -340,7 +338,7 @@ export class Router extends EventEmmiter {
         for (const key of Object.keys(toInit)) {
             const node = toInit[key]
             const insPage = await this.initPage(node.page, true)
-            
+
             if (!insPage) {
                 this.emit("renderFail", { 
                     branch: this.branch,
@@ -499,13 +497,13 @@ export class Router extends EventEmmiter {
     async initPage(page: (new (...args: any[]) => any) | null | Function, getPage = false) {
         if (getPage && page) page = await this.getPage(page)
         if (!page) return null
-        
+
         let ins: Record<string, any> | null = null
         try {
             ins = new page(this)
             if (ins && typeof ins.init === "function") {
                 let res = ins.init()
-                if (res instanceof Promise) res = await res
+                if (res instanceof Promise) await this.wait(res)
             }
         } catch(e) {
             console.error("Can't init page:", page)
@@ -516,6 +514,7 @@ export class Router extends EventEmmiter {
     }
     
     async exitPage(page: Record<string, any>) {
+        if (!page) return 
         try {
             if (typeof page.exit !== "function") return
             let res = page.exit()
@@ -526,8 +525,13 @@ export class Router extends EventEmmiter {
         }
     }
     
-    async wait(promise: Promise<any>, time: number = 200) {
-        // задает определенное время для промиса
+    async wait(promise: Promise<any>, time: number = 5000) {
+        const base = new Promise<void>((_, reject) => {
+            setTimeout(() => {
+                reject(new Error("Timeout error"))
+            }, time)
+        })
+        return Promise.race([promise, base])
     }
     
     async getPage(page: (() => Promise<{ default: Function }>) | Function): Promise<Function | null> {

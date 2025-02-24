@@ -51,7 +51,7 @@ export class Header {
         this.ui.add(".indicator", {
             position: "absolute",
             height: "40px",
-            backgroundColor: "rgb(var(--component))",
+            backgroundColor: "rgba(var(--component), 0.7)",
             zIndex: "0",
             borderRadius: "8px",
             transition: "width 0.3s, left 0.3s",

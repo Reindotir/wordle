@@ -9,7 +9,8 @@ export default class NotFoundPage {
     init() {
         this.main.textContent = "Чел, ты ошибся страницей."
         setTimeout(() => {
-            this.router.navigate("/")
+            //this.router.navigate("/")
+            console.log(this.router)
         }, 3000)
     }
 

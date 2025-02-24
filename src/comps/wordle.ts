@@ -70,8 +70,11 @@ export class Wordle extends EventEmmiter {
             alignItems: "center",
             justifyContent: "center",
             gap: "10px",
+            padding: "10px",
+            borderRadius: "12px",
             height: "100%",
             width: "100%",
+            backgroundColor: "rgb(var(--bg-st), 0.8)"
         })
         this.ui.add(".canvasCont", {
             display: "flex",
@@ -88,12 +91,12 @@ export class Wordle extends EventEmmiter {
         this.on("win", () => {
             this.state.gameEnd = true
             this.state.win = true
-            this.userData.games.push(this.state)
+            if (this.state.attempts) this.userData.games.push(this.state)
         })
 
         this.on("loss", () => {
             this.state.gameEnd = true
-            this.userData.games.push(this.state)
+            if (this.state.attempts) this.userData.games.push(this.state)
         })
     }
 
@@ -198,14 +201,14 @@ export class Wordle extends EventEmmiter {
         this.ui.add(".letter", {
             all: "unset",
             aspectRatio: "1 / 1",
-            flex: '1 0 30px',
+            flex: '1 0 45px',
             cursor: "pointer",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
             fontSize: "120%",
             borderRadius: "8px",
-            backgroundColor: "rgb(var(--component))",
+            backgroundColor: "rgba(var(--bg-nd), 0.7)",
             transition: "transform 0.3s cubic-bezier(0.25, 1, 0.5, 1)",
 
             "&:active": {
@@ -234,7 +237,7 @@ export class Wordle extends EventEmmiter {
         })
         this.ui.add(".optionBtn", {
             all: "unset",
-            flex: "0.1 0",
+            flex: "0.2 0",
             cursor: "pointer",
             aspectAsio: "3 / 1",
             display: "flex",
@@ -242,7 +245,7 @@ export class Wordle extends EventEmmiter {
             fontSize: "125%",
             justifyContent: "center",
             borderRadius: "8px",
-            backgroundColor: "rgb(var(--component))",
+            backgroundColor: "rgb(var(--bg-nd), 0.7)",
             padding: "5px",
             transition: "transform 0.3s cubic-bezier(0.25, 1, 0.5, 1)",
 
@@ -251,6 +254,17 @@ export class Wordle extends EventEmmiter {
             },
         })
 
+        const adaptiveStyle = {
+            "main .optionBtn": {
+                flex: "0.1 0",
+            },
+            "main .letter": {
+                flex: '1 0 30px',
+            }
+        }
+
+        this.ui.add("@media screen and (max-width: 580px)", adaptiveStyle)
+        this.ui.add("@media screen and (min-height: 750px)", adaptiveStyle)
 
         const newBtn = (letter: string) => {
             const btn = document.createElement("button")
@@ -361,13 +375,10 @@ export class Wordle extends EventEmmiter {
     }
 
     clearKeyboard() {
-        const cont = this.box.querySelector(".lettersLine")
-        if (!cont) return
 
-        const btns = cont.querySelectorAll(".letter")
+        const btns = this.box.querySelectorAll(".letter")
         btns.forEach((btn) => {
-            btn.className = ""
-            btn.classList.add("letter")
+            btn.className = "letter"
         })
     }
 

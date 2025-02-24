@@ -17,13 +17,13 @@ export class App {
 
     initOverlay() {
         const ui = store.state.ui
-        ui.add("#overlay", {
+        ui.add(".overlay", {
             zIndex: "3",
             position: "absolute",
             height: '100vh',
             width: '100vw',
             backdropFilter: "blur(10px)",
-            display: "none",
+            display: "block",
             opacity: "0",
             transition: "opacity 0.3s",
 
@@ -37,21 +37,20 @@ export class App {
         store.setState({
             overlay: div
         })
-        document.body.appendChild(div)
     }
 
     openOverlay() {
         document.body.appendChild(store.state.overlay)
         setTimeout(() => {
-            store.state.overlay.classList.add(".show")
+            store.state.overlay.classList.add("show")
         }, 10)
     }
 
     closeOverlay() {
-        const overlay = document.querySelector("#overlay")
+        const overlay = document.querySelector(".overlay")
         if (overlay) {
             overlay.classList.remove("show")
-            setTimeout(() => overlay.remove, 300)
+            setTimeout(() => overlay.remove(), 300)
         }
     }
     

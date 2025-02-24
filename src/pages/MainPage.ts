@@ -16,6 +16,7 @@ export default class MainPage {
         window.addEventListener("beforeunload", () => {
             this.saveData()
         })
+        document.title = "Wordle"
     }
 
     init() {
@@ -35,43 +36,43 @@ export default class MainPage {
             alignItems: "center",
             justifyContent: "center",
         })
-
+        offEnv()
         this.ui.add(".log-panel", {
             position: "absolute",
             zIndex: "5",
-            width: "40%",
-            height: "30%",
+            padding: "10px",
+            width: "auto",
+            height: "auto",
             display: "flex",
             flexDirection: "column",
             borderRadius: "12px",
             alignItems: "center",
             boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
-            backgroundColor: "rgb(var(--bg-nd))",
+            backgroundColor: "rgba(var(--bg-nd), 0.8)",
             justifyContent: "center",
             opacity: "0",
-            transform: "translate(-50%, -60%)",
+            transform: "translate(-10%, -50%)",
             transition: "opacity 0.5s cubic-bezier(0.25, 1, 0.5, 1), transform 0.5s cubic-bezier(0.25, 1, 0.5, 1)",
 
             "&.show": {
                 opacity: "1",
-                transform: "translate(-50%, -50%)",
+                transform: "translate(0%, -50%)",
             },
         })
-        
         this.ui.add(".log-panel-content", {
             display: "flex",
             width: "100%",
             height: "100%",
-            display: "flex",
             alignItems: "center",
             justifyContent: "center",
             flexDirection: "column",
+            fontSize: "100%",
             gap: "5px",
         })
         
         this.ui.add(".log-panel-option", {
             width: "100%",
-            padding: "5px",
+            padding: "10px",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
@@ -81,13 +82,12 @@ export default class MainPage {
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                padding: "5px",
+                padding: "5px 10px",
                 borderRadius: "8px",
-                backgroundColor: "rgb(var(--component))",
+                cursor: "pointer",
+                backgroundColor: "rgba(var(--component), 0.7)",
             }
         })
-
-        offEnv()
     }
 
     initContent() {
@@ -105,9 +105,9 @@ export default class MainPage {
             "zxcvbnm".split(""),
         ]
         const russianAlphabet = [
-            "йцукенгшщзхъ".split(""),
-            "фывапролджэ".split(""),
-            "ячсмитьбю".split(""),
+            "йцукенгшщзх".split(""),
+            "ъфывапролдж".split(""),
+            "эячсмитьбю".split(""),
         ]
 
         const alphabet = {
@@ -132,34 +132,21 @@ export default class MainPage {
             letters: alphabet[store.state.langName] || englishAlphabet,
             words: words[store.state.langName]
         })
-
+        
         const userData = localStorage.getItem('userGameData')
         if (userData) this.wordleApi.userData = JSON.parse(userData)
-        console.log(userData)
+        
         this.wordleApi.init()
-        
-        const winTxts = [
-            "Ухухуэ я бы не угадал, молодец!!", 
-            "хорошо, теперь еще одна игра.",
-            "Как ты это делаешь?",
-            "КРУТА ТОП НУ ТЫ ВАШЕ КАК ПРОСТО",
-        ]
-        
-        const lossTxts = [
-            "Ну и ладно, зато ты красивый",
-            "Представь как было бы скусно без проигрышей",
-            "Может посмотришь в консоль? ТОЛЬКО ТССС",
-            "Ладно, хорошо, круто, весело, прикольно."
-        ]
 
         this.wordleApi.on("win", () => {
-            let idx = Math.floor(Math.random() * winTxts.length)
-            this.openPanel(winTxts[idx])
+            let idx = Math.floor(Math.random() * store.st.lang.logPanel.win.length)
+            this.openPanel("<span>" + store.st.lang.logPanel.win[idx] + "</span>")
         })
         this.wordleApi.on("loss", () => {
-            let idx = Math.floor(Math.random() * lossTxts.length)
-            this.openPanel(lossTxts[idx])
+            let idx = Math.floor(Math.random() * store.st.lang.logPanel.loss.length)
+            this.openPanel("<span>" + store.st.lang.logPanel.loss[idx] + "</span>" + `<span>${store.st.lang.logPanel.word_was}: <b>${this.wordleApi.state.word}</b></span>`)
         })
+        
     }
 
     initLogPanel() {
@@ -174,6 +161,7 @@ export default class MainPage {
         const btn = document.createElement("button")
         btn.addEventListener("click", () => {
             this.wordleApi.newGame()
+            this.closePanel()
         })
         btn.textContent = store.st.lang.logPanel.btn
         option.appendChild(btn)
@@ -184,16 +172,27 @@ export default class MainPage {
 
     openPanel(content = "") {
         this.logPanel.classList.add("show")
-        this.logPanel.querySelector("div").innerHTML = content
+        store.st.app.openOverlay()
+        const cont = this.logPanel.querySelector("div")
+        if (cont) cont.innerHTML = content
+
+        setTimeout(() => {
+            document.addEventListener("click", () => {
+                this.closePanel()
+                this.wordleApi.newGame()
+            }, { once: true })
+        }, 10)
     }
 
     closePanel() {
+        store.st.app.closeOverlay()
         this.logPanel.classList.remove("show")
+        const cont = this.logPanel.querySelector("div")
+        if (cont) cont.innerHTML = ""
     }
     
     saveData() {
         localStorage.setItem("userGameData", JSON.stringify(this.wordleApi.userData))
-        console.log(this.wordleApi.userData)
     }
 
     exit() {

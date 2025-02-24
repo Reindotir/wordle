@@ -9,6 +9,7 @@ export default class LeadersPage {
     constructor(router: Record<string, any>) {
         this.router = router
         store.st.header.focus(0)
+        document.title = "Wordle " + store.st.lang.leadersPageBtn
     }
 
     init() {
@@ -54,7 +55,7 @@ export default class LeadersPage {
             borderRadius: "12px",
             flexDirection: "column",
             padding: "5px",
-            backgroundColor: "rgb(var(--bg-nd))",
+            backgroundColor: "rgba(var(--bg-nd), 0.8)",
         })
         const topBox = document.createElement("div")
         topBox.classList.add("top-box")
@@ -75,7 +76,7 @@ export default class LeadersPage {
         topBox.appendChild(topHeader)
         
         this.ui.add('.top-list', {
-            backgroundColor: "rgb(var(--bg-st))",
+            backgroundColor: "rgba(var(--bg-st), 0.7)",
             width: "100%",
             maxHeight: "85vh",
             height: "100%",
@@ -85,7 +86,7 @@ export default class LeadersPage {
             alignItems: "center",
             flexDirection: "column",
             borderRadius: "8px",
-            gap: "3vh",
+            gap: "2vh",
             padding: "5px",
         })
         const list = document.createElement("div")
@@ -94,14 +95,19 @@ export default class LeadersPage {
         
         this.ui.add(".user-box", {
             width: "100%",
-            height: "3vh",
+            height: "auto",
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
-            padding: "0px 5px",
+            padding: "5px",
+            backgroundColor: "rgba(var(--bg-nd), 0.5)",
+            borderRadius: "5px",
+            
         })
         this.ui.add(".user-name", {
-            fontSize: "120%",
+            fontSize: "115%",
+            textDecoration: "underline",
+            cursor: "pointer",
         }) 
         this.ui.add('.user-data', {
             fontSize: "120%",
@@ -166,7 +172,7 @@ export default class LeadersPage {
             height: "100%",
             padding: "5px",
             borderRadius: "12px",
-            backgroundColor: "rgb(var(--bg-nd))"
+            backgroundColor: "rgba(var(--bg-nd), 0.8)"
         })
         const placeBox = document.createElement("div")
         placeBox.classList.add("place-box")
@@ -192,7 +198,7 @@ export default class LeadersPage {
             borderRadius: "8px",
             alignItems: "center",
             justifyContent: "center",
-            backgroundColor: "rgb(var(--bg-st))",
+            backgroundColor: "rgba(var(--bg-st), 0.7)",
             
             "span": {
                 fontSize: "200%",
@@ -218,7 +224,7 @@ export default class LeadersPage {
             height: "100%",
             borderRadius: "12px",
             flexDirection: "column",
-            backgroundColor: "rgb(var(--bg-nd))",
+            backgroundColor: "rgba(var(--bg-nd), 0.8)",
             padding: "5px",
         })
         const statusBox = document.createElement("div")
@@ -251,10 +257,12 @@ export default class LeadersPage {
             alignItems: "center",
             padding: "5px",
             justifyContent: "center",
-            backgroundColor: "rgb(var(--bg-st))",
+            backgroundColor: "rgba(var(--bg-st), 0.7)",
             
             "img": {
                 width: "50%",
+                maxWidth: "250px",
+                maxHeight: "250px",
                 borderRadius: "8px",
                 aspectRatio: "1 / 1",
             }
