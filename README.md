@@ -49,7 +49,17 @@ dist/ - скомпилированный проект с обычным js.
 
 ## 6. Скриншоты
 
-Добавь КАРТИНКИ И ГИФ МБ
+Игра на телефоне:
+![игра](https://github.com/Reindotir/wordle/blob/main/screenshots/screen1.jpg)
+
+Профиль на телефоне:
+![профиль](https://github.com/Reindotir/wordle/blob/main/screenshots/screen2.jpg)
+
+Профиль на пк:
+![Профиль](https://github.com/Reindotir/wordle/blob/main/screenshots/screen3.jpg)
+
+Лидеры на пк
+![Лидеры](https://github.com/Reindotir/wordle/blob/main/screenshots/screen4.jpg)
 
 ## 7. Технологии
 
