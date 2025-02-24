@@ -1,0 +1,1 @@
+class i{constructor(t){this.main=document.querySelector("main"),this.router=t}init(){this.main.textContent="Чел, ты ошибся страницей.",setTimeout(()=>{this.router.navigate("/")},3e3)}exit(){this.main.innerHTML=""}}export{i as default};

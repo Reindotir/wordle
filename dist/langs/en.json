@@ -1,0 +1,54 @@
+{
+    "leadersPageBtn": "Leaders",
+    "mainPageBtn": "Game",
+    "profilePageBtn": "Profile",
+    "keyboard": {
+        "backspace": "Backspace",
+        "enter": "Enter"
+    },
+    "profile": {
+        "noPicks": "oops, user has no pics((",
+        "logsHeaderName": "Statistic",
+        "logsError": "You have no games. why.",
+        "galleryHeader": "User gallery"
+    },
+    "topList": {
+        "header": "Top"
+    },
+    "status": {
+        "header": "Your status",
+        "type": ["beginning", "advanced", "pro"]
+    },
+    "average": {
+        "header": "Average value"
+    },
+    "option": {
+        "langs": "Change lang",
+        "theme": "Change theme"
+    },
+    "themes": {
+        "dark": "dark",
+        "light": "light",
+        "auto": "auto"
+    },
+    "leaders": {
+        "place": "Place in top",
+        "placeHeader": "Place"
+    },
+    "logPanel": {
+        "btn": "Ok",
+        "word_was": "Word was",
+        "loss": [
+            "oh well, but u r beautiful",
+            "imagine boring world without loss",
+            "may be you can took a look at console? but I don't say that",
+            "okey, well, so, um"
+        ],
+        "win": [
+            "you r smart enough!", 
+            "okey, now another game",
+            "how did u do that?",
+            "WOW OMG COOL SHOCK"
+        ]
+    }
+}
