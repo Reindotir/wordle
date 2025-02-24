@@ -4,7 +4,7 @@
 ![Баннер](https://www.shutterstock.com/image-vector/wordle-word-puzzle-game-vector-260nw-2116971383.jpg)
 ## 2. Установка и запуск
 **Простой запуск:**
-* Скачиваем код из ветки gh-pages
+* Скачиваем код из ветки site
 * Запускаем локальный сервер и запускаем сайт.
 сервер ваще любой, хоть live server в vs code
 
