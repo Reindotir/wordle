@@ -90,7 +90,7 @@ export default class MainPage {
         })
     }
 
-    initContent() {
+    async initContent() {
         this.box = document.createElement("div")
         this.box.classList.add("wordleBox")
         this.main.appendChild(this.box)
@@ -117,9 +117,11 @@ export default class MainPage {
             "ru": russianAlphabet,
         }
 
-        // делаем вид, что получаем слова с сервера
-        const enWords = ['about', 'alert', 'argue', 'beach', 'above', 'alike', 'arise', 'began', 'abuse', 'alive', 'array', 'begin', 'actor', 'allow', 'aside', 'begun', 'acute', 'alone', 'asset', 'being', 'admit', 'along', 'audio', 'below', 'adopt', 'alter', 'audit', 'bench', 'adult', 'among', 'avoid', 'billy', 'after', 'anger', 'award', 'birth', 'again', 'angle', 'aware', 'black', 'agent', 'angry', 'badly', 'blame', 'agree', 'apart', 'baker', 'blind', 'ahead', 'apple', 'bases', 'block', 'alarm', 'apply', 'basic', 'blood', 'album', 'arena', 'basis', 'board', 'boost', 'buyer', 'china', 'cover', 'booth', 'cable', 'chose', 'craft', 'bound', 'calif', 'civil', 'crash', 'brain', 'carry', 'claim', 'cream', 'brand', 'catch', 'class', 'crime', 'bread', 'cause', 'clean', 'cross', 'break', 'chain', 'clear', 'crowd', 'breed', 'chair', 'click', 'crown', 'brief', 'chart', 'clock', 'curve', 'bring', 'chase', 'close', 'cycle']
-        const ruWords = ['время', 'жизнь', 'слово', 'место', 'конец', 'часть', 'город', 'земля', 'право', 'дверь', 'образ', 'закон', 'война', 'голос', 'книга', 'число', 'народ', 'форма', 'связь', 'улица', 'вечер', 'мысль', 'месяц', 'школа', 'театр', 'рубль', 'смысл', 'орган', 'рынок', 'семья', 'центр', 'ответ', 'автор', 'стена', 'совет', 'глава', 'наука', 'плечо', 'точка', 'палец', 'номер', 'метод', 'фильм', 'гость', 'кровь', 'район', 'армия', 'класс', 'герой', 'спина', 'сцена', 'объем', 'берег', 'фирма', 'завод', 'песня', 'роман', 'стихи', 'повод', 'успех', 'выход', 'текст', 'пункт', 'линия', 'среда', 'волос', 'ветер', 'огонь', 'грудь', 'страх', 'сумма', 'сфера', 'мужик', 'немец', 'выбор', 'масса', 'слава', 'кухня', 'отдел', 'товар']
+        let response = await fetch("../wordle/config.json")
+        let conf = await response.json()
+
+        const enWords = conf.words.en
+        const ruWords = conf.words.ru
         const words = {
             "ru-RU": ruWords,
             "en-US": enWords,
